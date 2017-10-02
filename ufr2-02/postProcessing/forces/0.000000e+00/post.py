@@ -22,9 +22,9 @@ U = 0.54
 f_norm = f*D/U
 
 plt.plot(f_norm, Pxx_den)
-plt.xlabel('$\frac{n*D}{U}')
+plt.xlabel(r'$\frac{nD}{U}$')
 plt.ylabel('SPD')
-plt.xlim([0, 0.02*f_norm[-1]])
+plt.xlim([0, 0.01*f_norm[-1]])
 plt.show()
 
 St = f_norm[np.argmax(Pxx_den)]
