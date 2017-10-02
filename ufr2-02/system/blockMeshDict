@@ -132,7 +132,7 @@ boundary
         );
     }
 
-    frontAndBack
+    lowerUpper
     {
         type wall;
         faces
