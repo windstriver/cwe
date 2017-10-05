@@ -12,11 +12,14 @@ It's from the OpenFOAM User Guide version 5.0 Tutorial 2.2.
 
 - **grad(U)** gradient discretisation scheme using **leastSquares** method.
 
-- solidDisplacementFoam solver (better study the source code of this solver).
+- **solidDisplacementFoam** solver (better study the source code of this solver).
 
 ### Issues
 
 - Why stress boundary condition is wrote to *0/D* file? Then how to define displacement b.c.?
+
+- - The stress b.c. is defined with **traction** and **pressure** keywords.
+- - The displacement b.c. is defined by **value** keyword.
 
 - Post-processing: postProcessing -func "components(sigma)" command and also
 postProcessing -func "singleGraph", how to write such post-processing functions?
