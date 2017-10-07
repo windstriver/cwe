@@ -1,0 +1,48 @@
+#How to run me:
+
+
+
+#To clean the directory, this is optional
+
+foamCleanTutorials
+
+
+
+#To generate the mesh and check mesh quality
+
+blockMesh
+
+checkMesh
+
+
+
+# To run in serial:
+
+icoFoam > log.icofoam | tail -f log.icofoam 
+
+
+
+# Visualization
+
+paraFoam
+
+
+
+# To do some sampling
+
+postProcess -func sampleDict -latestTime
+
+
+
+# To plot solution woth gnuplot
+
+gnuplot gnuplot/gnuplot_script 
+
+
+
+
+
+#NOTE0:
+
+#If you are using TCSH shell use the following redirector:
+#command | tee log

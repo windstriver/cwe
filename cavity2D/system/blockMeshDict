@@ -1,0 +1,107 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  4.x                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+convertToMeters 1;	//This is an scaling operation. Done at the end.
+
+xmin 0;
+xmax 1;
+ymin 0;
+ymax 1;
+zmin 0;
+zmax 1;
+
+xcells 20;
+ycells 20;
+zcells 1;
+
+//deltax 0.00775;	//As in Ghia et al 129 x 129 cells
+//deltax 0.05;
+//lx #calc "$xmax-$xmin";
+//xcells #calc "round($lx/$deltax)";
+
+//ycells $xcells;
+
+vertices
+(
+    ($xmin  $ymin  $zmin)
+    ($xmax  $ymin  $zmin)
+    ($xmax  $ymax  $zmin)
+    ($xmin  $ymax  $zmin)
+    ($xmin  $ymin  $zmax)
+    ($xmax  $ymin  $zmax)
+    ($xmax  $ymax  $zmax)
+    ($xmin  $ymax  $zmax)
+
+/*
+    (0 0 0)
+    (1 0 0)
+    (1 1 0)
+    (0 1 0)
+    (0 0 0.1)
+    (1 0 0.1)
+    (1 1 0.1)
+    (0 1 0.1)
+*/
+);
+
+blocks
+(
+    hex (0 1 2 3 4 5 6 7) ($xcells $ycells $zcells) simpleGrading (1 1 1)
+);
+
+edges
+(
+    //arc 0 1 (0.5 -0.1 0)
+    //arc 4 5 (0.5 -0.1 1)
+);
+
+boundary
+(
+    movingWall
+    {
+        type wall;
+        faces
+        (
+            (3 7 6 2)
+        );
+    }
+    fixedWalls
+    {
+        type wall;
+        faces
+        (
+            (0 4 7 3)
+            (2 6 5 1)
+            (1 5 4 0)
+        );
+    }
+    frontAndBack
+    {
+        type empty;
+        faces
+        (
+            (0 3 2 1)
+            (4 5 6 7)
+        );
+    }
+);
+
+mergePatchPairs
+(
+    //(interface1 interface2)
+);
+
+// ************************************************************************* //
