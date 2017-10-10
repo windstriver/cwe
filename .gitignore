@@ -38,5 +38,7 @@
 !0
 *.OpenFOAM
 *.foam
+*.log
+*/logs/*
 */constant/polyMesh/*
 *.DS_Store

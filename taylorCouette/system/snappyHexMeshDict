@@ -1,0 +1,134 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      snappyHexMeshDict;
+}
+
+castellatedMesh true;
+snap            true;
+addLayers       true;
+
+geometry 
+{
+
+    bottom.stl { type triSurfaceMesh; name bottom; }
+    inner_wall.stl { type triSurfaceMesh; name inner_wall; }
+    outer_wall.stl { type triSurfaceMesh; name outer_wall; }
+    top.stl { type triSurfaceMesh; name top; }
+
+};
+
+castellatedMeshControls 
+{ 
+features 
+(
+
+    { file "bottom.eMesh"; level 2; }
+    { file "inner_wall.eMesh"; level 2; }
+    { file "outer_wall.eMesh"; level 2; }
+    { file "top.eMesh"; level 2; }
+
+);
+
+refinementSurfaces 
+{
+
+    bottom { level ( 2 2 ); patchInfo { type wall; } }
+    inner_wall { level ( 2 2 ); patchInfo { type wall; } }
+    outer_wall { level ( 2 2 ); patchInfo { type wall; } }
+    top { level ( 2 2 ); patchInfo { type wall; } }
+
+}
+
+refinementRegions
+{
+}
+
+locationInMesh ( 0.0390 0 0 );
+
+//             M  k
+/*
+maxLocalCells   666666;
+maxGlobalCells 4000000;
+*/
+
+maxLocalCells   700000;
+maxGlobalCells 4000000;
+
+minRefinementCells 0;
+nCellsBetweenLevels 4;
+resolveFeatureAngle 15; //30;
+
+allowFreeStandingZoneFaces true;
+} // castellatedMeshControls
+
+addLayersControls
+{
+    layers
+    {  
+        "outer_wall" { nSurfaceLayers 2; }
+        "inner_wall" { nSurfaceLayers 2; }
+    }
+
+    relativeSizes true;
+    expansionRatio 1.5;
+    finalLayerThickness 0.75;
+    minThickness 0.1;
+    nGrow 0;
+    featureAngle 270;
+    nRelaxIter 10;
+    nSmoothSurfaceNormals 0;
+    nSmoothNormals 3;
+    nSmoothThickness 10;
+    maxFaceThicknessRatio 0.5;
+    maxThicknessToMedialRatio 0.3;
+    minMedianAxisAngle 90;
+    nBufferCellsNoExtrude 0;
+    nLayerIter 55;
+    nRelaxedIter 30;
+}
+
+snapControls
+{
+    nSmoothPatch 3;
+    tolerance 1.0;
+    nSolveIter 30;
+    nRelaxIter 10;
+    nFeatureSnapIter 10;
+}
+
+meshQualityControls
+{
+    maxNonOrtho 60;
+
+    /*
+    maxBoundarySkewness 1; //20;
+    maxInternalSkewness 1; //4;
+    */
+
+    maxBoundarySkewness 4;
+    maxInternalSkewness 4;
+
+    maxConcave 65;
+    minVol 1e-13;
+    minTetQuality 1e-33;
+    minArea -1;
+    minTwist 0.02;
+    minDeterminant 0.001;
+    minFaceWeight 0.05;
+    minVolRatio 0.01;
+    minTriangleTwist -1;
+    nSmoothScale 4;
+    errorReduction 0.75;
+
+    relaxed
+    {
+        maxNonOrtho 70;
+    }
+}
+
+debug 0;
+mergeTolerance 1E-6;
+
