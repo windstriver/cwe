@@ -1,0 +1,97 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  4.x                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    wall-4
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+
+/*
+    velocity-inlet-5
+    {
+        type            fixedValue;
+        value           uniform (2 0 0);
+    }
+*/
+
+    velocity-inlet-5
+    {
+        type            codedFixedValue;
+    	  value           uniform (0 0 0);
+    	  redirectType    parabolicProfile;
+
+	      code
+    	  #{
+            scalar U_0 = 2, p_ctr = 8, p_r = 8;
+            const fvPatch& boundaryPatch = patch();
+            const vectorField& Cf = boundaryPatch.Cf();
+            vectorField& field = *this;
+
+            //To acces time use this->db().time().value();
+            scalar t = this->db().time().value();
+
+            forAll(Cf, faceI)
+            {
+                //field[faceI] = vector(sin(this->db().time().value())*U_0*(1-(pow(Cf[faceI].y()-p_ctr,2))/(p_r*p_r)),0,0);
+                field[faceI] = vector(sin(t)*U_0*(1-(pow(Cf[faceI].y()-p_ctr,2))/(p_r*p_r)),0,0);
+            }
+        #};
+
+        codeOptions
+        #{
+            -I$(LIB_SRC)/finiteVolume/lnInclude \
+            -I$(LIB_SRC)/meshTools/lnInclude
+   	    #};
+
+        codeInclude
+   	    #{
+      	    #include "fvCFD.H"
+      	    #include <cmath>
+     	      #include <iostream>
+  	    #};
+    }
+
+    velocity-inlet-6
+    {
+        type            fixedValue;
+        value           uniform (0 3 0);
+    }
+
+    pressure-outlet-7
+    {
+        type            zeroGradient;
+    }
+
+    wall-8
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+
+    frontAndBackPlanes
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
