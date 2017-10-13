@@ -1,13 +1,14 @@
 ## OpenFOAM
-# Post Processing
-*.OpenFOAM
-*.foam
+
+# Mesh
+*/constant/polyMesh/*
 
 # Time steps
 [0-9]*
 [0-9]*.[0-9]*
 !0
 
-# Mesh
-*/constant/polyMesh/*
-
+# Post Processing
+*.OpenFOAM
+*.foam
+postProcessing
