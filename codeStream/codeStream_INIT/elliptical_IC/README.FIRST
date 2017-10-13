@@ -1,0 +1,33 @@
+How to run me:
+
+
+
+#To clean the directory, this is optional
+
+foamCleanTutorials
+
+
+
+#To generate the mesh and chek the quality
+
+blockMesh
+
+checkMesh
+
+
+
+rm -rf 0
+
+cp -r 0_org 0
+
+setFields
+
+
+
+# To run in serial:
+
+interFoam | tee log.interFoam
+
+
+
+
