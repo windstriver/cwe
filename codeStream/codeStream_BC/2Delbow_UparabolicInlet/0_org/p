@@ -1,0 +1,110 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  4.x                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -2 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    wall-4
+    {
+        type            zeroGradient;
+    }
+
+    velocity-inlet-5
+    {
+        type            zeroGradient;
+    }
+
+/*
+    velocity-inlet-5
+    {
+        type            fixedValue;
+        value           #codeStream
+        {
+            codeInclude
+            #{
+                #include "fvCFD.H"
+            #};
+
+            codeOptions
+            #{
+                -I$(LIB_SRC)/finiteVolume/lnInclude \
+                -I$(LIB_SRC)/meshTools/lnInclude
+            #};
+
+    	    //libs needed to visualize BC in paraview
+    	    codeLibs
+    	    #{
+        	-lmeshTools \
+        	-lfiniteVolume
+    	    #};
+
+            code
+            #{
+                const IOdictionary& d = static_cast<const IOdictionary&>
+		(
+                    dict.parent().parent()
+                );
+                const fvMesh& mesh = refCast<const fvMesh>(d.db());
+                const label id = mesh.boundary().findPatchID("velocity-inlet-5");
+                const fvPatch& patch = mesh.boundary()[id];
+
+                scalarField S(patch.size(), scalar(0) );
+
+                const scalar pi = constant::mathematical::pi;
+                const scalar U_0   = 2.;	//max vel
+		const scalar p_ctr = 8.;	//patch center
+                const scalar p_r   = 8.;	//patch radius
+
+                forAll(S, i)
+                {
+                    const scalar y = patch.Cf()[i][1];
+                    //S[i] = 0;
+                    S[i] = scalar( U_0*sin(pi*y/p_ctr) );
+                    //U[i] = scalar(U_0*(1-(pow(y - p_ctr,2))/(p_r*p_r)) );
+                }
+
+                S.writeEntry("", os);
+            #};
+        };
+    }
+*/
+
+    velocity-inlet-6
+    {
+        type            zeroGradient;
+    }
+
+    pressure-outlet-7
+    {
+        type            fixedValue;
+        value           uniform 0;
+    }
+
+    wall-8
+    {
+        type            zeroGradient;
+    }
+
+    frontAndBackPlanes
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
