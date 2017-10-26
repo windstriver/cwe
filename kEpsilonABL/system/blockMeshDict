@@ -68,7 +68,7 @@ boundary
 
     Top
     {
-        type symmetry;
+        type patch;
         faces
         (
             (5 6 7 4)

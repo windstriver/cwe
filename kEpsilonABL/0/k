@@ -17,7 +17,7 @@ FoamFile
 
 dimensions      [0 2 -2 0 0 0 0];
 
-internalField   uniform 1.3686;
+internalField   uniform 1.3868;
 
 boundaryField
 {
@@ -30,6 +30,7 @@ boundaryField
         Zref            6.0;
         z0              uniform 0.01;
         zGround         uniform 0.0;
+        value           uniform 0.0;
     }
 
     Outlet
@@ -40,9 +41,16 @@ boundaryField
 
     Ground
     {
-        type            kqRWallFunction;
-        value           unifrom 1.3686;
+        type            kLowReWallFunction;
+        value           uniform 1.3868;
     }
+
+    Top
+    {
+        type            fixedValue;
+        value           uniform 1.3868;
+    }
+
 
     #include "caseDicts/setConstraintTypes"
 

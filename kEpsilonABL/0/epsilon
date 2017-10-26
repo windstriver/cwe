@@ -17,7 +17,7 @@ FoamFile
 
 dimensions      [0 2 -3 0 0 0 0];
 
-internalField   uniform  1;
+internalField   uniform 0.1;
 
 boundaryField
 {
@@ -30,6 +30,7 @@ boundaryField
         Zref            6.0;
         z0              uniform 0.01;
         zGround         uniform 0.0;
+        value           uniform 0.0;
     }
 
     Outlet
@@ -43,6 +44,13 @@ boundaryField
         type            epsilonWallFunction;
         value           uniform 64.167;
     }
+
+    Top
+    {
+        type            fixedValue;
+        value           uniform 0.001312;
+    }
+
 
     #include "caseDicts/setConstraintTypes"
 

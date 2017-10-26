@@ -35,9 +35,15 @@ boundaryField
 
     Ground
     {
-        type            nutkAtmRoughWallFunction;
-        z0              uniform 0.01;
+        type            nutkRoughWallFunction;
+        Ks              uniform 0.3;
+        Cs              uniform 0.5;
         value           uniform 0;
+    }
+
+    Top
+    {
+        type            zeroGradient;
     }
 
     #include "caseDicts/setConstraintTypes"

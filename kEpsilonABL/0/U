@@ -43,6 +43,15 @@ boundaryField
         type            noSlip;
     }
 
+    Top
+    {
+    //    type            fixedShearStress;
+    //    tau             (0.503 0 0);
+    //    value           uniform (0.503 0 0);
+        type            fixedValue;
+        value      uniform (17.33 0 0);
+    }
+
     #includeEtc "caseDicts/setConstraintTypes"
 }
 
