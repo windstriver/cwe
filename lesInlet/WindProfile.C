@@ -97,7 +97,7 @@ double WindProfile::vonKarmanSw(double z, double freq)
         pow((1+70.8*pow(2*freq*Lw/Uav,2)), 11.0/6.0);
 }
 
-double WindProfile::gamma(double z)
+double WindProfile::tuningFactor(double z)
 {
     double Lu = turbLengthScaleU(z);
     double beta = Cx * dGamma / Lu;
@@ -105,4 +105,19 @@ double WindProfile::gamma(double z)
         return 3.7 * pow(beta,-0.3);
     else
         return 2.1;
+}
+
+double WindProfile::getCx()
+{
+    return Cx;
+}
+
+double WindProfile::getCy()
+{
+    return Cy;
+}
+
+double WindProfile::getCz()
+{
+    return Cz;
 }

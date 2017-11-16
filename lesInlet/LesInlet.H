@@ -9,7 +9,7 @@
 
 using namespace std;
 
-class LesInlet: public WindProfile
+class LesInlet: WindProfile
 {
     // Private data
 

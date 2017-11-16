@@ -78,7 +78,12 @@ public:
     double vonKarmanSw(double z, double freq);
 
     // Calculate tuning factor
-    double gamma(double z);
+    double tuningFactor(double z);
+
+    // Acess the coherency decay constant
+    double getCx();
+    double getCy();
+    double getCz();
 
 };
 
