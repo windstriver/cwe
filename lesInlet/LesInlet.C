@@ -23,7 +23,7 @@ double LesInlet::getFmax()
 }
 
 
-vector<double> LesInlet::UturbFreqSeg(double freq, vector<double> X, double t)
+vector<double> LesInlet::UturbFreqSeg(double freq, vector<double> X, vector<double> tt)
 {
     random_device rd;
     mt19937 mt(rd());
@@ -94,8 +94,6 @@ vector<double> LesInlet::UturbFreqSeg(double freq, vector<double> X, double t)
         // cout << kx[i] << " " << ky[i] << " " << kz[i] << endl;
     }
 
-    vector<double> U(3, 0.0);
-
     double Uav = meanVelocity(X[2]);
     double gamma = tuningFactor(X[2]);
     double Cx = getCx();
@@ -108,19 +106,23 @@ vector<double> LesInlet::UturbFreqSeg(double freq, vector<double> X, double t)
     X[1] /= Lsy;
     X[2] /= Lsz;
 
-    for(int i = 0; i < nf; ++i)
+    vector<double> Ux(tt.size(), 0.0);
+    for (unsigned ts = 0; ts < tt.size(); ++ts)
     {
-        double kx_ft = kx[i]*X[0] + ky[i]*X[1] + kz[i]*X[2] + 2*M_PI*fmn[i]*t;
-        U[0] += px[i] * cos(kx_ft) + qx[i] * sin(kx_ft);
-        U[1] += py[i] * cos(kx_ft) + qy[i] * sin(kx_ft);
-        U[2] += pz[i] * cos(kx_ft) + qz[i] * sin(kx_ft);
-    }
+        for(int i = 0; i < nf; ++i)
+        {
+            double kx_ft = kx[i]*X[0] + ky[i]*X[1] + kz[i]*X[2] + 2*M_PI*fmn[i]*tt[ts];
+            Ux[ts] += px[i] * cos(kx_ft) + qx[i] * sin(kx_ft);
+            // U[1] += py[i] * cos(kx_ft) + qy[i] * sin(kx_ft);
+            // U[2] += pz[i] * cos(kx_ft) + qz[i] * sin(kx_ft);
+        }
 
-    // cout << U[0] << " " << U[1] << " " << U[2] << endl;
-    return U;
+    }
+           // cout << U[0] << " " << U[1] << " " << U[2] << endl;
+    return Ux;
 }
 
-vector<double> LesInlet::Uturb(vector<double> X, double t)
+vector<double> LesInlet::Uturb(vector<double> X, vector<double> tt)
 {
     // Frequency vector
     vector<double> fm(nm, 0.0);
@@ -130,16 +132,20 @@ vector<double> LesInlet::Uturb(vector<double> X, double t)
         // cout << fm[i] << endl;
     }
 
-    vector<double> U(3, 0.0);
+    vector<double> Ux(tt.size(), 0.0);
+
     for(int i = 0; i < nm; ++i)
     {
-        vector<double> Um = UturbFreqSeg(fm[i], X, t);
-        U[0] += Um[0];
-        U[1] += Um[1];
-        U[2] += Um[2];
+        vector<double> Um = UturbFreqSeg(fm[i], X, tt);
+        for (unsigned ts = 0; ts < tt.size(); ++ts)
+        {
+            Ux[ts] += Um[ts];
+            cout << "Time: " << tt[ts] << "    " << "Ux" << Ux[ts] << endl;
+        }
+        // U[1] += Um[1];
+        // U[2] += Um[2];
     }
-
     // cout << U[0] << " " << U[1] << " " << U[2] << endl;
 
-    return U;
+    return Ux;
 }

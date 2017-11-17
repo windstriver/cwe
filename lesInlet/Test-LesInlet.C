@@ -33,12 +33,13 @@ int main()
     for(int i = 0; i < nt; ++i)
     {
         timeVec[i] = i*dt;
-        vector<double> U = wp.Uturb(X, timeVec[i]);
-        UxTh[i] = U[0];
-        UyTh[i] = U[1];
-        UzTh[i] = U[2];
-        cout << "Time step: " << timeVec[i] << "    Ux: " << UxTh[i] << endl;
+        // vector<double> U = wp.Uturb(X, timeVec[i]);
+        // UxTh[i] = U[0];
+        // UyTh[i] = U[1];
+        // UzTh[i] = U[2];
+        // cout << "Time step: " << timeVec[i] << "    Ux: " << UxTh[i] << endl;
     }
+    UxTh = wp.Uturb(X, timeVec);
 
     // Calculate the mean and standard deviation of Ux time history
     double meanUx = 0;

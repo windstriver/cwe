@@ -33,10 +33,10 @@ public:
     double getFmax();
 
     // Velocity for frequency single frequency
-    vector<double> UturbFreqSeg(double freq, vector<double> X, double t);
+    vector<double> UturbFreqSeg(double freq, vector<double> X, vector<double> tt);
 
     // Veclotiy for whole frequency domain
-    vector<double> Uturb(vector<double> X, double t);
+    vector<double> Uturb(vector<double> X, vector<double> tt);
 
 };
 
