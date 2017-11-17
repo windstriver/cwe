@@ -19,7 +19,9 @@ class LesInlet: WindProfile
     int nf;
     // Maximum frequency
     double fmax;
+    // Minimum frequency
     double fmin;
+    // Delta frequency
     double df;
 
 public:
@@ -27,7 +29,14 @@ public:
     // Constructors
     LesInlet();
 
-    vector<double> Um(double freq, vector<double> X, double t);
+    // Access Maximum frequency
+    double getFmax();
+
+    // Velocity for frequency single frequency
+    vector<double> UturbFreqSeg(double freq, vector<double> X, double t);
+
+    // Veclotiy for whole frequency domain
+    vector<double> Uturb(vector<double> X, double t);
 
 };
 

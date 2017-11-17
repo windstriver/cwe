@@ -17,8 +17,13 @@ LesInlet::LesInlet()
     df = (fmax - fmin) / (nm - 1);
 }
 
+double LesInlet::getFmax()
+{
+    return fmax;
+}
 
-vector<double> LesInlet::Um(double freq, vector<double> X, double t)
+
+vector<double> LesInlet::UturbFreqSeg(double freq, vector<double> X, double t)
 {
     random_device rd;
     mt19937 mt(rd());
@@ -111,6 +116,30 @@ vector<double> LesInlet::Um(double freq, vector<double> X, double t)
         U[2] += pz[i] * cos(kx_ft) + qz[i] * sin(kx_ft);
     }
 
-    cout << U[0] << " " << U[1] << " " << U[2] << endl;
+    // cout << U[0] << " " << U[1] << " " << U[2] << endl;
+    return U;
+}
+
+vector<double> LesInlet::Uturb(vector<double> X, double t)
+{
+    // Frequency vector
+    vector<double> fm(nm, 0.0);
+    for(int i = 0; i < nm; ++i)
+    {
+        fm[i] = fmin + i * df;
+        // cout << fm[i] << endl;
+    }
+
+    vector<double> U(3, 0.0);
+    for(int i = 0; i < nm; ++i)
+    {
+        vector<double> Um = UturbFreqSeg(fm[i], X, t);
+        U[0] += Um[0];
+        U[1] += Um[1];
+        U[2] += Um[2];
+    }
+
+    // cout << U[0] << " " << U[1] << " " << U[2] << endl;
+
     return U;
 }
