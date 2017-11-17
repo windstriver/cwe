@@ -33,10 +33,20 @@ public:
     double getFmax();
 
     // Velocity for frequency single frequency
-    vector<double> UturbFreqSeg(double freq, vector<double> X, vector<double> tt);
+    vector<vector<vector<double> > >
+    UturbFreqSeg(double freq,
+                 vector<vector<double> > xMat,
+                 vector<double> tt);
 
     // Veclotiy for whole frequency domain
-    vector<double> Uturb(vector<double> X, vector<double> tt);
+    // Input:
+    //    xMat: matrix to store inlet point c.s. nPts x 3 vector
+    //    tt:   vector to store time step vector
+    // Output:
+    //    Matrix to store turbulent velocity at inlet point and time step
+    vector<vector<vector<double> > >
+    Uturb(vector<vector<double> > xMat,
+          vector<double> tt);
 
 };
 

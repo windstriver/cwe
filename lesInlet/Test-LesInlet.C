@@ -7,15 +7,41 @@ using namespace std;
 
 int main()
 {
-    LesInlet wp;
-
-    double fmax = wp.getFmax();
+    WindProfile wp;
+    LesInlet inlet;
 
     // Point at 0.95 m height
-    vector<double> X(3);
-    X[0] = 0;
-    X[1] = 0;
-    X[2] = 0.95;
+    vector<vector<double> > X(2, vector<double> (3));
+    X[0][0] = 0;
+    X[0][1] = 0;
+    X[0][2] = 0.95;
+    X[1][0] = 0;
+    X[1][1] = 0;
+    X[1][2] = 0.35;
+
+    // Test of von Karman spectrum
+    double fmax = inlet.getFmax();
+    double fmin = 1;
+    int nf = 100;
+    double df = (fmax-fmin) / (nf-1);
+    // Frequency vector
+    vector<double> freqVec(nf, 0.0);
+    vector<double> SuVec(nf, 0.0);
+    for (int i = 0; i < nf; ++i)
+    {
+        freqVec[i] = fmin + i*df;
+        SuVec[i] = wp.vonKarmanSu(X[0][2], freqVec[i]);
+        // cout << "Freq: " << freqVec[i] << "    " << "Su: " << SuVec[i] << endl;
+    }
+
+    ofstream output;
+    // Creat a file
+    output.open("Su.csv");
+    for (int i = 0; i < nf; ++i)
+    {
+        output << freqVec[i] << "," << SuVec[i] << endl;
+    }
+    output.close();
 
 
     // Number of time steps
@@ -24,50 +50,48 @@ int main()
     double dt = 1.0/fmax/2/2.5;
     // Time vector
     vector<double> timeVec(nt, 0.0);
-
-    // Turbulent velocity time history vector
-    vector<double> UxTh(nt, 0.0);
-    vector<double> UyTh(nt, 0.0);
-    vector<double> UzTh(nt, 0.0);
-
     for(int i = 0; i < nt; ++i)
     {
         timeVec[i] = i*dt;
-        // vector<double> U = wp.Uturb(X, timeVec[i]);
-        // UxTh[i] = U[0];
-        // UyTh[i] = U[1];
-        // UzTh[i] = U[2];
-        // cout << "Time step: " << timeVec[i] << "    Ux: " << UxTh[i] << endl;
     }
-    UxTh = wp.Uturb(X, timeVec);
+
+    // Turbulent velocity time history vector
+    vector<vector<vector<double> > > UTh;
+    UTh = inlet.Uturb(X, timeVec);
+    vector<double> UxTh1(timeVec.size());
+    // vector<double> UxTh2;
+
+    for (unsigned int ts = 0; ts < timeVec.size(); ++ts)
+    {
+        UxTh1[ts] = UTh[0][ts][0];
+        // cout << UxTh1[ts] << endl;
+    }
 
     // Calculate the mean and standard deviation of Ux time history
     double meanUx = 0;
     double stdUx = 0;
     for (int i = 0; i < nt; ++i)
     {
-        meanUx += UxTh[i];
+        meanUx += UxTh1[i];
     }
     meanUx /= nt;
 
     for (int i = 0; i < nt; ++i)
     {
-        stdUx += (UxTh[i] - meanUx) * (UxTh[i] - meanUx);
+        stdUx += (UxTh1[i] - meanUx) * (UxTh1[i] - meanUx);
     }
     stdUx /= (nt-1);
 
     cout << "Mean of Ux: " << meanUx << endl
          << "Std  of Ux: " << stdUx << endl;
 
-    ofstream output;
     // Creat a file
     output.open("UxTh.csv");
     for (int i = 0; i < nt; ++i)
     {
-        output << timeVec[i] << "," << UxTh[i] << endl;
+        output << timeVec[i] << "," << UxTh1[i] << endl;
     }
     output.close();
-
 
     return 0;
 }
