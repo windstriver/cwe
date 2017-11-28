@@ -1,5 +1,5 @@
-Test-LesInlet.C
-WindProfile.C
+LesInletOutput.C
 LesInlet.C
+WindProfile.C
 
-EXE = ./Test-LesInlet
+EXE = $(FOAM_USER_APPBIN)/LesInletOutput
