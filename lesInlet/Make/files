@@ -1,5 +1,0 @@
-LesInletOutput.C
-LesInlet.C
-WindProfile.C
-
-EXE = $(FOAM_USER_APPBIN)/LesInletOutput
