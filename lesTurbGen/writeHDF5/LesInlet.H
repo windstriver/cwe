@@ -26,6 +26,7 @@ public:
 
     // Constructors
     LesInlet();
+    LesInlet(double deltaT);
 
     // Access Maximum frequency
     double getFmax();
@@ -45,6 +46,9 @@ public:
     std::vector<std::vector<std::vector<double> > >
     Uturb(std::vector<std::vector<double> > xMat,
           std::vector<double> tt);
+
+    std::vector<double>
+    Umean(std::vector<std::vector<double> > xMat);
 
 };
 

@@ -57,13 +57,19 @@ int main(int argc, char *argv[])
         time[i] = startTime + i*deltaT;
     }
 
+
     // Parameters for HDF5 databases
     const std::string FILE_NAME("../lesinlet.h5");
+    const std::string DATASET_NAME_UMEAN("UMEAN");
+    const std::string DATASET_NAME_U("U");
+    const std::string DATASET_NAME_V("V");
+    const std::string DATASET_NAME_W("W");
     const std::string DATASET_NAME_GRID("GRID");
     const std::string DATASET_NAME_TIME("TIME");
 
     // Creat HDF5 file
     H5::H5File file(FILE_NAME, H5F_ACC_TRUNC);
+    // Uturb
     hsize_t dims[2];
     dims[0] = NX;
     dims[1] = NT;
@@ -77,14 +83,21 @@ int main(int argc, char *argv[])
     H5::DataSet dataset_w = file.createDataSet(DATASET_NAME_W,
                                                H5::PredType::IEEE_F64BE,
                                                dataspace);
-
+    // Umean
+    hsize_t dims_umean[1];
+    dims_umean[0] = NX;
+    H5::DataSpace dataspace_umean(1, dims_umean);
+    H5::DataSet dataset_umean = file.createDataSet(DATASET_NAME_UMEAN,
+                                                   H5::PredType::IEEE_F64BE,
+                                                   dataspace_umean);
+    // Grid
     dims[0] = NX;
     dims[1] = 4;
     H5::DataSpace dataspace_grid(2, dims);
     H5::DataSet dataset_grid = file.createDataSet(DATASET_NAME_GRID,
                                                   H5::PredType::IEEE_F64BE,
                                                   dataspace_grid);
-
+    // Time
     hsize_t dims_time[1];
     dims_time[0]= NT;
     H5::DataSpace dataspace_time(1, dims_time);
@@ -98,7 +111,6 @@ int main(int argc, char *argv[])
     dataset2.write(patchFaceCenter, H5::PredType::NATIVE_DOUBLE);
     dataset2 = file2.openDataSet(DATASET_NAME_TIME);
     dataset2.write(time, H5::PredType::NATIVE_DOUBLE);
-
 
     return 0;
 }

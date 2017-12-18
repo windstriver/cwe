@@ -17,6 +17,15 @@ LesInlet::LesInlet()
     df = (fmax - fmin) / (nm - 1);
 }
 
+LesInlet::LesInlet(double deltaT)
+{
+    fmax = 1.0 / (5.0 * deltaT);
+    nm = int(fmax / 2);
+    nf = 100;
+    fmin = fmax / nm / 2.0;
+    df = (fmax - fmin) / (nm - 1);
+}
+
 double LesInlet::getFmax()
 {
     return fmax;
@@ -200,8 +209,10 @@ LesInlet::Uturb(std::vector<std::vector<double> > xMat,
     std::vector<std::vector<double> > Uy(xMat.size(), std::vector<double>(tt.size()));
     std::vector<std::vector<double> > Uz(xMat.size(), std::vector<double>(tt.size()));
 
+    std::cout << "\nStart generating turbulence:" << std::endl;
     for(int i = 0; i < nm; ++i)
     {
+        std::cout << "Frequency segment: " << fm[i] << "(Maximum freq.: " << fmax << ")" << std::endl;
         std::vector<std::vector<std::vector<double> > > Um= UturbFreqSeg(fm[i], xMat, tt);
         for (unsigned nPt = 0; nPt < xMat.size(); ++nPt)
         {
@@ -231,3 +242,15 @@ LesInlet::Uturb(std::vector<std::vector<double> > xMat,
     return U;
 }
 
+std::vector<double> LesInlet::Umean(std::vector<std::vector<double> > xMat)
+{
+    std::vector<double> Z(xMat.size(), 0.0);
+    std::vector<double> Uav(Z.size(), 0.0);
+    for (unsigned int i = 0; i < xMat.size(); i++)
+    {
+        Z[i] = xMat[i][2];
+        Uav[i] = meanVelocity(Z[i]);
+    }
+
+    return Uav;
+}
