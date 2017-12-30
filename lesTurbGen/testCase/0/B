@@ -40,12 +40,12 @@ boundaryField
 
     sides
     {
-        type            zeroGradient;
+        type            symmetry;
     }
 
     top
     {
-        type            zeroGradient;
+        type            symmetry;
     }
 
 }

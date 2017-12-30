@@ -41,14 +41,12 @@ boundaryField
 
     sides
     {
-        type            fixedValue;
-        value           uniform 0;
+        type            symmetry;
     }
 
     top
     {
-        type            fixedValue;
-        value           uniform 0;
+        type            symmetry;
     }
 
 }

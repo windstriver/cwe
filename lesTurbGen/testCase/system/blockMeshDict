@@ -14,13 +14,8 @@ FoamFile
 }
 
 convertToMeters	 1.0;
-H    0.5;
-B    0.05;
-X1   #calc "5*$H";
-X2   #calc "15*$H";
-X    #calc "$X1+$X2";
-Y    #calc "4*$H";
-Z    #calc "10*$H";
+
+#include "../parameters"
 
 vertices
 (

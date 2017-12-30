@@ -1,0 +1,14 @@
+// building height
+H    0.5;
+// building width
+B    0.05;
+// along-wind distance from inlet to building
+X1   #calc "5*$H";
+// along-wind distance from building to outlet
+X2   #calc "15*$H";
+// along-wind total length of domain
+X    #calc "$X1+$X2+$B";
+// cross-wind total length of domain
+Y    #calc "4*$H";
+// vertical total height of domain
+Z    #calc "10*$H";

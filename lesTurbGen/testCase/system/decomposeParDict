@@ -1,7 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  1.6                                   |
+|  \\    /   O peration     | Version:  dev                                   |
 |   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
@@ -17,23 +17,19 @@ FoamFile
 
 numberOfSubdomains 4;
 
-method          metis;
+method          simple;
 
 simpleCoeffs
 {
-    n               ( 2 1 1 );
+    n               (2 2 1);
     delta           0.001;
 }
 
 hierarchicalCoeffs
 {
-    n               ( 2 1 1 );
+    n               (1 1 1);
     delta           0.001;
     order           xyz;
-}
-
-metisCoeffs
-{
 }
 
 manualCoeffs
