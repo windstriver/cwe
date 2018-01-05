@@ -1,7 +1,7 @@
 ## OpenFOAM
 
 # Mesh
-constant/polyMesh/*
+*/constant/polyMesh/*
 
 # Time steps
 [0-9]*

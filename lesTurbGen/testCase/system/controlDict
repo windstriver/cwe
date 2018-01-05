@@ -41,7 +41,7 @@ writePrecision  6;
 
 writeCompression uncompressed;
 
-timeFormat      scientific;
+timeFormat      general;
 
 timePrecision   6;
 
