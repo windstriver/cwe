@@ -31,7 +31,7 @@ deltaT          2e-03;
 
 writeControl    timeStep;
 
-writeInterval   1;
+writeInterval   50;
 
 purgeWrite      0;
 
@@ -56,6 +56,8 @@ maxDeltaT         2.0e-3;
 functions
 {
     #includeFunc probes
+    #includeFunc singleGraphInlet
+    #includeFunc singleGraphBuilding
 }
 
 // ************************************************************************* //

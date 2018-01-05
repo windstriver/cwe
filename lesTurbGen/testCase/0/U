@@ -36,20 +36,19 @@ boundaryField
         #{
             -I$(LIB_SRC)/finiteVolume/lnInclude \
             -I$(LIB_SRC)/meshTools/lnInclude \
-            -I/usr/include/hdf5/serial
+            -I/home/wan39502/quanah.local/hdf5/include
         #};
 
         codeLibs
         #{
             -lfiniteVolume \
             -lmeshTools \
-            -L"/usr/lib/x86_64-linux-gnu/hdf5/serial" \
+            -L/home/wan39502/quanah.local/hdf5/lib \
             -lhdf5_hl_cpp \
             -lhdf5_cpp \
             -lhdf5_hl \
             -lhdf5 \
             -lpthread \
-            -lsz \
             -lz \
             -ldl \
             -lm

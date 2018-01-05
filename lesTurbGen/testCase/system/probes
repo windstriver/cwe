@@ -13,18 +13,13 @@ Description
 #includeEtc "caseDicts/postProcessing/probes/probes.cfg"
 #include "../parameters"
 
-P1X 0;
-P1Y #calc "$Y/2.0";
-P1Z $H;
-P2X $X1;
-P2Y $P1Y;
-P2Z $P1Z;
-
 fields (U);
 probeLocations
 (
+    ($P0X $P0Y $P0Z)
     ($P1X $P1Y $P1Z)
     ($P2X $P2Y $P2Z)
+    ($P3X $P3Y $P3Z)
 );
 
 // ************************************************************************* //
