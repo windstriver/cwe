@@ -13,11 +13,11 @@ cd testCase
 
 #source $HOME/OpenFOAM/OpenFOAM-5.0/etc/bashrc
 
-blockMesh
+#blockMesh
 
-../bin/createHDF5
+#../bin/createHDF5
 
-../bin/writeHDF5
+#../bin/writeHDF5
 
 decomposePar
 
