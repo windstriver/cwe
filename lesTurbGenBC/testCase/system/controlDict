@@ -1,7 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  dev                                   |
+|  \\    /   O peration     | Version:  1.6                                   |
 |   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
@@ -11,35 +11,54 @@ FoamFile
     format      ascii;
     class       dictionary;
     location    "system";
-    object      decomposeParDict;
+    object      controlDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-numberOfSubdomains 288;
+#include "../parameters"
 
-method          simple;
+application     pimpleFoam;
 
-simpleCoeffs
+startFrom       startTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         30.0;
+
+deltaT          2e-03;
+
+writeControl    timeStep;
+
+writeInterval   50;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression uncompressed;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable yes;
+
+adjustTimeStep    no;
+
+maxCo             0.5;
+
+maxDeltaT         2.0e-3;
+
+functions
 {
-    n               (12 4 6);
-    delta           0.001;
+    #includeFunc boundaryCloud
+    #includeFunc probes
+    #includeFunc singleGraphInlet
+    #includeFunc singleGraphBuilding
 }
-
-hierarchicalCoeffs
-{
-    n               (1 1 1);
-    delta           0.001;
-    order           xyz;
-}
-
-manualCoeffs
-{
-    dataFile        "";
-}
-
-distributed     no;
-
-roots           ( );
-
 
 // ************************************************************************* //

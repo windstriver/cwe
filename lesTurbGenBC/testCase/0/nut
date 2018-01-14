@@ -1,45 +1,50 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  dev                                   |
-|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|  \\    /   O peration     | Version:  1.6                                   |
+|   \\  /    A nd           | Web:      http://www.OpenFOAM.org               |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 FoamFile
 {
     version     2.0;
     format      ascii;
-    class       dictionary;
-    location    "system";
-    object      decomposeParDict;
+    class       volScalarField;
+    object      nut;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-numberOfSubdomains 288;
+dimensions      [0 2 -1 0 0 0 0];
 
-method          simple;
+internalField   uniform 0;
 
-simpleCoeffs
+boundaryField
 {
-    n               (12 4 6);
-    delta           0.001;
+    inlet
+    {
+        type            zeroGradient;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    ground
+    {
+        type            zeroGradient;
+    }
+
+    sides
+    {
+        type            symmetry;
+    }
+
+    top
+    {
+        type            symmetry;
+    }
+
 }
-
-hierarchicalCoeffs
-{
-    n               (1 1 1);
-    delta           0.001;
-    order           xyz;
-}
-
-manualCoeffs
-{
-    dataFile        "";
-}
-
-distributed     no;
-
-roots           ( );
-
 
 // ************************************************************************* //
