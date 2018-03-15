@@ -6,7 +6,7 @@
 #$ -o $JOB_NAME.o$JOB_ID
 #$ -e $JOB_NAME.e$JOB_ID
 #$ -q omni
-#$ -pe mpi 288
+#$ -pe mpi 72
 #$ -P quanah
 
 cd testCase
@@ -26,4 +26,3 @@ decomposePar
 mpirun -np $NSLOTS pimpleFoam -parallel
 
 reconstructPar
-

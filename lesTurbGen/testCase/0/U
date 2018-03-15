@@ -16,7 +16,7 @@ FoamFile
 
 dimensions      [0 1 -1 0 0 0 0];
 
-internalField   uniform (0.54 0 0);
+internalField   uniform (0 0 0);
 
 boundaryField
 {
@@ -141,6 +141,7 @@ boundaryField
                         Uy[faceI][tI],
                         Uz[faceI][tI]
                     );
+		//Info << "face: " << faceI << " UMean: " << Ux[faceI][tI] + Umean[faceI] << endl;
             }
         #};
     }

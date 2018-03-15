@@ -14,7 +14,7 @@ Y    #calc "4*$H";
 Z    #calc "10*$H";
 
 // grid size
-Delta #calc "$H/10";
+Delta #calc "$H";
 
 // number of cells in alone-wind direction
 NX #calc "$X/$Delta";

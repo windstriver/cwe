@@ -19,13 +19,13 @@ FoamFile
 
 application     pimpleFoam;
 
-startFrom       latestTime;
+startFrom       startTime;
 
 startTime       0;
 
 stopAt          endTime;
 
-endTime         6.0;
+endTime         30.0;
 
 deltaT          2e-03;
 
@@ -47,7 +47,7 @@ timePrecision   6;
 
 runTimeModifiable yes;
 
-adjustTimeStep    yes;
+adjustTimeStep    no;
 
 maxCo             0.5;
 
@@ -55,6 +55,7 @@ maxDeltaT         2.0e-3;
 
 functions
 {
+    #includeFunc boundaryCloud
     #includeFunc probes
     #includeFunc singleGraphInlet
     #includeFunc singleGraphBuilding

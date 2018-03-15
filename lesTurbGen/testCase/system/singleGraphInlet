@@ -27,6 +27,8 @@ setConfig
     axis z;
 }
 
+interpolationScheme    cellPatchConstrained;
+
 // Must be last entry
 #includeEtc "caseDicts/postProcessing/graphs/graph.cfg"
 
