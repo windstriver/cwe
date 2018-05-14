@@ -1,4 +1,3 @@
-# openfoam
-Repository for CFD simulations using OpenFOAM.
+# Wind Engineering Projects Using OpenFOAM
 
-It's a repo for OpenFOAM tutorials and case files collected from various sources.
+This is a repository for OpenFOAM case files collected from various sources and also for my own wind engineering projects.
