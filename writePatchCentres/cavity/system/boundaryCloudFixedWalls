@@ -15,7 +15,7 @@ fields ( p );
 
 points
 (
-   #include "../fixedWallsCentres" 
+   #includeIfPresent "../fixedWallsCentres" 
 );
 
 maxDistance 0.1;

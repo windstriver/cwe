@@ -56,11 +56,11 @@ int main(int argc, char *argv[])
     // Info<< mesh.V() << endl;
 
     // Return a list of patch names
-    wordList patchNames = mesh.boundaryMesh().names();
-    Info<< "List of patch names: " << patchNames << endl;
+    // wordList patchNames = mesh.boundaryMesh().names();
+    // Info<< "List of patch names: " << patchNames << endl;
 
     // Find patch index given a patch name
-    label patchI = mesh.boundaryMesh().findPatchID("fixedWalls");
+    label patchI = mesh.boundaryMesh().findPatchID();
     Info<< "Patch index for fixedWalls is: " << patchI << endl;
 
     // Return face centres as surfaceVectorField
