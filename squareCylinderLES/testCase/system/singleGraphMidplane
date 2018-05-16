@@ -15,7 +15,7 @@ Description
 
 start   ($SP2X $SP2Y $SP2Z);
 end     ($SP3X $SP3Y $SP3Z);
-fields  (p U);
+fields  (U);
 
 // Sampling and I/O settings
 #includeEtc "caseDicts/postProcessing/graphs/sampleDict.cfg"
@@ -23,9 +23,11 @@ fields  (p U);
 // Override settings here, e.g.
 setConfig
 {
-    //type midPoint;
+    // type midPoint;
     axis z;
 }
+
+interpolationScheme    cellPatchConstrained;
 
 // Must be last entry
 #includeEtc "caseDicts/postProcessing/graphs/graph.cfg"

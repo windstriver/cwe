@@ -59,35 +59,20 @@ P0X 0;
 P0Y #calc "$Y3/2.0";
 P0Z $H;
 
-// probing point of building at H height
-P1X $X1;
+// probing point of inlet at 3/4H height
+P1X 0;
 P1Y $P0Y;
-P1Z $H;
+P1Z #calc "3*$H/4";
+
+// probing point of midplane of inflow patch at H height
+P2X #calc "$X1/2";
+P2Y $P0Y;
+P2Z $H;
 
 // probing point of inlet at 3/4H height
-P2X 0;
-P2Y $P0Y;
-P2Z #calc "3*$H/4";
-
-// probing point of building at 3/4H height
-P3X $X1;
+P3X $P2X;
 P3Y $P0Y;
-P3Z $P2Z;
-
-// probing point of building at leeward wall
-P4X $X2;
-P4Y $P0Y;
-P4Z $P2Z;
-
-// probing point of building at side wall
-P5X #calc "$X1+$B/2.0";
-P5Y $Y1;
-P5Z $P2Z;
-
-// probing point of building at side wall
-P6X #calc "$X1+$B/2.0";
-P6Y $Y2;
-P6Z $P2Z;
+P3Z $P1Z;
 
 // sampling point at bottom of inlet
 SP0X 0;
@@ -97,15 +82,15 @@ SP0Z 0;
 // sampling point at top of inlet
 SP1X 0;
 SP1Y $SP0Y;
-SP1Z $Z2;
+SP1Z $Z1;
 
-// sampling point at bottom of building
-SP2X $X1;
+// sampling point at bottom of midplane of inflow patch
+SP2X $P2X;
 SP2Y $SP0Y;
 SP2Z 0;
 
-// sampling point at top of building
-SP3X $X1;
+// sampling point at top of midplane of inflow patch
+SP3X $P2X;
 SP3Y $SP0Y;
 SP3Z $Z1;
 

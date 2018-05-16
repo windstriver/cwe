@@ -55,12 +55,13 @@ maxDeltaT         2.0e-3;
 
 functions
 {
-    #includeFunc boundaryCloud
+    //#includeFunc totalPressureIncompressible
+    #includeFunc boundaryCloudInlet
     #includeFunc probes
+    #includeFunc boundaryCloudBuilding
     #includeFunc singleGraphInlet
-    #includeFunc singleGraphBuilding
-    #includeFunc forceCoeffsIncompressible
-    #includeFunc totalPressureIncompressible
+    #includeFunc singleGraphMidplane
+    //#includeFunc forceCoeffsIncompressible
 }
 
 // ************************************************************************* //

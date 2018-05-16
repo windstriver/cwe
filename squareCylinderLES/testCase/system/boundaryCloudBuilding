@@ -10,25 +10,23 @@ Description
     specified boundary patches.
 
 \*---------------------------------------------------------------------------*/
-#include "../parameters"
 
-fields (p U);
+fields ( p );
 
 points
 (
-    ($P0X $P0Y $P0Z)
-    ($P2X $P2Y $P2Z)
+   #includeIfPresent "../buildingCentres" 
 );
 
 maxDistance 0.1;
 
 patches     (".*");
 
+#includeEtc "caseDicts/postProcessing/probes/boundaryCloud.cfg"
+
 interpolationScheme    cellPatchConstrained;
 
-setFormat  raw;
-
-#includeEtc "caseDicts/postProcessing/probes/boundaryCloud.cfg"
+setFormat    raw;
 
 writeControl    timeStep;
 
