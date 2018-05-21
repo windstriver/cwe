@@ -6,30 +6,30 @@
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 Description
-    Writes graph data for specified fields along a line, specified by start
-    and end points.
+    Writes out values of fields at a cloud of points, interpolated to
+    specified boundary patches.
 
 \*---------------------------------------------------------------------------*/
-
 #include "../parameters"
 
-start   ($SP0X $SP0Y $SP0Z);
-end     ($SP1X $SP1Y $SP1Z);
-fields  ( p U );
+fields ( p U );
 
-// Sampling and I/O settings
-#includeEtc "caseDicts/postProcessing/graphs/sampleDict.cfg"
+points
+(
+    ($P4X $P4Y $P4Z)
+    ($P5X $P5Y $P5Z)
+);
 
-// Override settings here, e.g.
-setConfig
-{
-    // type midPoint;
-    axis z;
-}
+maxDistance 0.1;
+
+patches     (".*");
+
+#includeEtc "caseDicts/postProcessing/probes/boundaryCloud.cfg"
 
 interpolationScheme    cellPatchConstrained;
 
-// Must be last entry
-#includeEtc "caseDicts/postProcessing/graphs/graph.cfg"
+setFormat    raw;
+
+writeControl    timeStep;
 
 // ************************************************************************* //

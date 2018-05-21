@@ -27,7 +27,9 @@ boundaryField
 
     outlet
     {
-        type            fixedValue;
+        type            totalPressure;
+        rho             none;
+        p0              uniform 0;
         value           uniform 0;
     }
 

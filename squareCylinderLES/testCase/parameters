@@ -69,10 +69,21 @@ P2X #calc "$X1/2";
 P2Y $P0Y;
 P2Z $H;
 
-// probing point of inlet at 3/4H height
+// probing point of midplane of inflow patch at 3/4H height
 P3X $P2X;
 P3Y $P0Y;
 P3Z $P1Z;
+
+// probing point of outlet at H height
+P4X $X3;
+P4Y $P0Y;
+P4Z $H;
+
+// probing point of outlet at H height
+P5X $X3;
+P5Y $P0Y;
+P5Z $P1Z;
+
 
 // sampling point at bottom of inlet
 SP0X 0;

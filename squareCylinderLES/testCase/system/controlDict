@@ -19,7 +19,7 @@ FoamFile
 
 application     pimpleFoam;
 
-startFrom       latestTime;
+startFrom       startTime;
 
 startTime       0;
 
@@ -56,9 +56,10 @@ maxDeltaT         2.0e-3;
 functions
 {
     //#includeFunc totalPressureIncompressible
-    #includeFunc boundaryCloudInlet
     #includeFunc probes
+    #includeFunc boundaryCloudInlet
     #includeFunc boundaryCloudBuilding
+    #includeFunc boundaryCloudOutlet
     #includeFunc singleGraphInlet
     #includeFunc singleGraphMidplane
     //#includeFunc forceCoeffsIncompressible

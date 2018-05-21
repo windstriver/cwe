@@ -15,7 +15,7 @@ Description
 
 start   ($SP2X $SP2Y $SP2Z);
 end     ($SP3X $SP3Y $SP3Z);
-fields  (U);
+fields  ( p U );
 
 // Sampling and I/O settings
 #includeEtc "caseDicts/postProcessing/graphs/sampleDict.cfg"
