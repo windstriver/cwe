@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
 
     // Find patch index given a patch name
     label patchI = mesh.boundaryMesh().findPatchID("building");
-    Info<< "Patch index for fixedWalls is: " << patchI << endl;
+    //Info<< "Patch index for building is: " << patchI << endl;
 
     // Return face centres as surfaceVectorField
     // surfaceVectorField faceCentres = mesh.Cf();
@@ -71,12 +71,25 @@ int main(int argc, char *argv[])
     // Info<< "faceCentres on patch fixedWalls" << nl << faceCentres << endl;
 
     // Write patch centres to a file
-    fileName outputFile("buildingCentres");
+    fileName outputFile("buildingPatchFaceCentres");
     OFstream os(outputFile);
 
     forAll(faceCentres, faceI)
     {
         os << faceCentres[faceI] << endl;
+    }
+
+    // Return face area vector as surfaceVectorField
+    const vectorField& faceAreaVectors = mesh.Sf().boundaryField()[patchI];
+    // Write face area vectors to a file
+    fileName outputFileSf("buildingPatchFaceAreaVectors");
+    OFstream os2(outputFileSf);
+
+    forAll(faceAreaVectors, faceI)
+    {
+        os2 << faceAreaVectors[faceI].x() << "," 
+            << faceAreaVectors[faceI].y() << "," 
+            << faceAreaVectors[faceI].z() << endl;
     }
 
     Info<< "End\n" << endl;
