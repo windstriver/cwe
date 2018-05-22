@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 
 """
+baseMoments.py
+
+Calculate the base moments according to pressure distribution and
+face area vectors on the building patch.
+The base moments time histories are then saved to csv file, with a format of
+Time,  Mx,  My,  Mt
 """
 
 import numpy as np
@@ -38,3 +44,10 @@ for tI in presDataFrame.columns:
                 np.multiply(Fy, ptDataFrame.loc[:,'x']-xc))
     momentDataFrame.loc[:,tI] = [Mx, My, Mt]
 
+
+# Transpose index and columns of momentDataFrame
+# Time,  Mx,  My,  Mt
+momentDataFrame = momentDataFrame.transpose();
+
+# Save base moment time history to CSV
+momentDataFrame.to_csv('baseMomentTimeHistory.csv')
