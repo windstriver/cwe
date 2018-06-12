@@ -1,10 +1,11 @@
+%% Run parameters.m
+parameters
+
 %% Extract the coordinates
 % inflow plane is z-plane
-X = GRID(:,1);
-Y = GRID(:,2);
-Z = GRID(:,3);
-
-nd = size(X,1); % overall number of points
+X = GRID(:,2);
+Y = GRID(:,3);
+Z = GRID(:,4);
 
 %% Extract the frequency and time vector
 fvec = (0:(N-1))*df; % frequency vector
@@ -43,31 +44,6 @@ PHI = 2*pi*rand(M,N);
 
 %% Start generating turbulence
 % Initialization
-% Wavenumber-Freq Spectrum matrix at a single point
-Sukf = zeros(M,N);    % Suu(km, fn)
-Svkf = zeros(M,N);    % Svv(km, fn)
-Swkf = zeros(M,N);    % Sww(km, fn)
-
-% Amplitude for wave(km, fn)
-Umn = zeros(M,N);
-Vmn = zeros(M,N);
-Wmn = zeros(M,N);
-
-% kxmn for divergence-free condition
-kxmn = zeros(M,N);
-
-% Phase for wave(fn)
-Phmn = zeros(M,N);
-
-% FFT matrix for velocity time series u, v, w
-% row: frequency index
-% 0, df, 2*df, ... , (N-1)*df
-% N*df, (N+1)*df, ... , (2*N-2)*df
-% column: wavenumber index
-Uf = zeros(2*N-1, M);
-Vf = zeros(2*N-1, M);
-Wf = zeros(2*N-1, M);
-
 % Velocity time series
 % row: time step index
 % column: points index
@@ -75,7 +51,32 @@ u = zeros(nt,nd);
 v = zeros(nt,nd);
 w = zeros(nt,nd);
 
-for i = 1:nd    % i: points index
+parfor i = 1:nd    % i: points index
+    % Wavenumber-Freq Spectrum matrix at a single point
+    Sukf = zeros(M,N);    % Suu(km, fn)
+    Svkf = zeros(M,N);    % Svv(km, fn)
+    Swkf = zeros(M,N);    % Sww(km, fn)
+
+    % Amplitude for wave(km, fn)
+    Umn = zeros(M,N);
+    Vmn = zeros(M,N);
+    Wmn = zeros(M,N);
+
+    % kxmn for divergence-free condition
+    kxmn = zeros(M,N);
+
+    % Phase for wave(fn)
+    Phmn = zeros(M,N);
+
+    % FFT matrix for velocity time series u, v, w
+    % row: frequency index
+    % 0, df, 2*df, ... , (N-1)*df
+    % N*df, (N+1)*df, ... , (2*N-2)*df
+    % column: wavenumber index
+    Uf = zeros(2*N-1, M);
+    Vf = zeros(2*N-1, M);
+    Wf = zeros(2*N-1, M);
+
     % Wave-freq. Spectrum matrix for point i
     Sukf = 2/pi * ones(M,1) * (Su0(:,i)'.*(Cxyz(1)*fvec/Uav(i))) ./ ...
         ((Cxyz(1)*fvec/Uav(i)).^2 + kvec.^2);
@@ -133,3 +134,12 @@ for i = 1:nd    % i: points index
 
     fprintf('Pt. %3d completed\n\n', i);
 end
+
+%% Save data to HDF5 database
+h5write(hdf5File,'/GRID',GRID);
+h5write(hdf5File,'/TIME',tvec);
+h5write(hdf5File,'/UMEAN',Uav);
+h5write(hdf5File,'/U',u');
+h5write(hdf5File,'/V',v');
+h5write(hdf5File,'/W',w');
+
