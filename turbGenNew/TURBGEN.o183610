@@ -1,0 +1,150 @@
+-catch_rsh /export/uge/default/spool/compute-9-21/active_jobs/183610.1/pe_hostfile
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+compute-9-21
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2017 The MathWorks, Inc.
+                   R2017b (9.3.0.713579) 64-bit (glnxa64)
+                             September 14, 2017
+
+ 
+To get started, type one of these: helpwin, helpdesk, or demo.
+For product information, visit www.mathworks.com.
+ 
+>> >> 
+hdf5File =
+
+    'lesinlet.h5'
+
+>> >> >> >> >> >> >> >> >> >> >> >> >> >> >> Starting parallel pool (parpool) using the 'local' profile ...
+connected to 12 workers.
+Pt.   1 ( 0.000,  0.000,  0.050):
+Pt.   2 ( 0.000,  0.000,  0.150):
+Pt.   3 ( 0.000,  0.000,  0.250):
+Pt.   4 ( 0.000,  0.000,  0.350):
+Pt.   5 ( 0.000,  0.000,  0.450):
+Pt.   6 ( 0.000,  0.000,  0.550):
+Pt.   7 ( 0.000,  0.000,  0.650):
+Pt.   8 ( 0.000,  0.000,  0.750):
+Pt.   9 ( 0.000,  0.000,  0.850):
+Pt.  10 ( 0.000,  0.000,  0.950):
+std(u) =  1.089 by auto-spectra
+std(u) =  1.001 (0.08) by wave-freq spectra
+std(v) =  0.953 by auto-spectra
+std(v) =  0.903 (0.05) by wave-freq spectra
+std(w) =  0.796 by auto-spectra
+std(w) =  0.749 (0.06) by wave-freq spectra
+Pt.      1 /     10 completed
+
+std(u) =  1.840 by auto-spectra
+std(u) =  1.686 (0.08) by wave-freq spectra
+std(v) =  1.610 by auto-spectra
+std(v) =  1.515 (0.06) by wave-freq spectra
+std(w) =  1.345 by auto-spectra
+std(w) =  1.249 (0.07) by wave-freq spectra
+Pt.      3 /     10 completed
+
+std(u) =  2.054 by auto-spectra
+std(u) =  1.879 (0.08) by wave-freq spectra
+std(v) =  1.797 by auto-spectra
+std(v) =  1.687 (0.06) by wave-freq spectra
+std(w) =  1.501 by auto-spectra
+std(w) =  1.389 (0.07) by wave-freq spectra
+Pt.      4 /     10 completed
+
+std(u) =  2.513 by auto-spectra
+std(u) =  2.295 (0.09) by wave-freq spectra
+std(v) =  2.199 by auto-spectra
+std(v) =  2.056 (0.06) by wave-freq spectra
+std(w) =  1.836 by auto-spectra
+std(w) =  1.686 (0.08) by wave-freq spectra
+Pt.      7 /     10 completed
+
+std(u) =  1.558 by auto-spectra
+std(u) =  1.429 (0.08) by wave-freq spectra
+std(v) =  1.363 by auto-spectra
+std(v) =  1.286 (0.06) by wave-freq spectra
+std(w) =  1.138 by auto-spectra
+std(w) =  1.063 (0.07) by wave-freq spectra
+Pt.      2 /     10 completed
+
+std(u) =  2.229 by auto-spectra
+std(u) =  2.038 (0.09) by wave-freq spectra
+std(v) =  1.950 by auto-spectra
+std(v) =  1.828 (0.06) by wave-freq spectra
+std(w) =  1.629 by auto-spectra
+std(w) =  1.503 (0.08) by wave-freq spectra
+Pt.      5 /     10 completed
+
+std(u) =  2.380 by auto-spectra
+std(u) =  2.174 (0.09) by wave-freq spectra
+std(v) =  2.082 by auto-spectra
+std(v) =  1.949 (0.06) by wave-freq spectra
+std(w) =  1.739 by auto-spectra
+std(w) =  1.600 (0.08) by wave-freq spectra
+Pt.      6 /     10 completed
+
+std(u) =  2.633 by auto-spectra
+std(u) =  2.403 (0.09) by wave-freq spectra
+std(v) =  2.304 by auto-spectra
+std(v) =  2.152 (0.07) by wave-freq spectra
+std(w) =  1.924 by auto-spectra
+std(w) =  1.763 (0.08) by wave-freq spectra
+Pt.      8 /     10 completed
+
+std(u) =  2.742 by auto-spectra
+std(u) =  2.502 (0.09) by wave-freq spectra
+std(v) =  2.400 by auto-spectra
+std(v) =  2.239 (0.07) by wave-freq spectra
+std(w) =  2.004 by auto-spectra
+std(w) =  1.833 (0.09) by wave-freq spectra
+Pt.      9 /     10 completed
+
+std(u) =  2.844 by auto-spectra
+std(u) =  2.593 (0.09) by wave-freq spectra
+std(v) =  2.488 by auto-spectra
+std(v) =  2.320 (0.07) by wave-freq spectra
+std(w) =  2.078 by auto-spectra
+std(w) =  1.897 (0.09) by wave-freq spectra
+Pt.     10 /     10 completed
+
+>> >> >> >> >> >> >> >> >> >> >> >> >> >>   message with properties:
+
+    Identifier: 'MATLAB:connector:connector:ConnectorNotRunning'
+     Arguments: {}
+
+compute-9-21 Clean Up for Job_ID 183610
