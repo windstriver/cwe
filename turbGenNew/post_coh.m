@@ -9,7 +9,7 @@ ylabel('Coherency')
 legend('Simulation', 'Target')
 xlim([0,25])
 title('Coherency function');
-% saveas(gcf, 'coh', 'epsc')
+saveas(gcf, 'coherency', 'epsc')
 
 %% Spatial correlation factor
 % Target
@@ -33,3 +33,5 @@ xlabel('Vertical distance (m)');
 ylabel('Spatial Correlation Factor');
 legend('Target','Simulation');
 title('Spatial Correlation Factor');
+saveas(gcf, 'scf', 'epsc')
+

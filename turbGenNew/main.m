@@ -136,10 +136,14 @@ parfor i = 1:nd    % i: points index
 end
 
 %% Save data to HDF5 database
-h5write(hdf5File,'/GRID',GRID);
+h5write(hdf5File,'/GRID',GRID');
 h5write(hdf5File,'/TIME',tvec);
 h5write(hdf5File,'/UMEAN',Uav);
-h5write(hdf5File,'/U',u');
-h5write(hdf5File,'/V',v');
-h5write(hdf5File,'/W',w');
+h5write(hdf5File,'/U',u);
+h5write(hdf5File,'/V',v);
+h5write(hdf5File,'/W',w);
+
+%% Post-processing scripts
+post_psd
+post_coh
 

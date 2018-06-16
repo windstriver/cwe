@@ -59,7 +59,7 @@ Cxyz = [10 10 10];
 % nt:    number of time steps
 % Td:    total simulated time
 dt = 0.001;
-nt = 6001;
+nt = 40961;
 Td = nt * dt;
 
 %% Frequency segments
@@ -72,8 +72,8 @@ fmax = (N-1)*df;
 %% Wavenumber segments
 % M:      Number of wavenumber segments
 % kmax:   Maximum wavenumber
-M = 1000;
-kmax = 1000;
+M = 3000;
+kmax = 3000;
 
 %% Sample test grid
 % dh = 0.001;
@@ -96,11 +96,11 @@ nd = size(GRID,1);  % overall number of points
 %% Create HDF5 database to store simulated data
 hdf5File = 'lesinlet.h5'
 if (exist(hdf5File,'file') == 0)
-    h5create(hdf5File,'/GRID',[nd 4]);
+    h5create(hdf5File,'/GRID',fliplr([nd 4]));
     h5create(hdf5File,'/TIME',nt);
     h5create(hdf5File,'/UMEAN',nd);
-    h5create(hdf5File,'/U',[nd nt]);
-    h5create(hdf5File,'/V',[nd nt]);
-    h5create(hdf5File,'/W',[nd nt]);
+    h5create(hdf5File,'/U',fliplr([nd nt]));
+    h5create(hdf5File,'/V',fliplr([nd nt]));
+    h5create(hdf5File,'/W',fliplr([nd nt]));
 end
 
