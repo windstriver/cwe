@@ -126,13 +126,12 @@ Sw0 = 4*ones(N,1)*((Iw'.*Uav').^2.*(Lw'./Uav')) .* ...
 % UMEAN: [nd]
 % U,V,W: [nd nt]
 hdf5File = 'lesinlet.h5';
-if (exist(hdf5File,'file') == 2)
-    delete(hdf5File);
+if (exist(hdf5File,'file') == 0)
+    h5create(hdf5File,'/GRID',fliplr([nd 4]));
+    h5create(hdf5File,'/TIME',nt);
+    h5create(hdf5File,'/UMEAN',nd);
+    h5create(hdf5File,'/U',fliplr([nd nt]));
+    h5create(hdf5File,'/V',fliplr([nd nt]));
+    h5create(hdf5File,'/W',fliplr([nd nt]));
 end
 
-h5create(hdf5File,'/GRID',fliplr([nd 4]));
-h5create(hdf5File,'/TIME',nt);
-h5create(hdf5File,'/UMEAN',nd);
-h5create(hdf5File,'/U',fliplr([nd nt]));
-h5create(hdf5File,'/V',fliplr([nd nt]));
-h5create(hdf5File,'/W',fliplr([nd nt]));

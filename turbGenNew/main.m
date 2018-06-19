@@ -1,5 +1,5 @@
-%% Run parameters.m
-parameters
+%% Run parameters.m to set primary variables
+run('parameters');
 
 %% Generate random phase matrices
 PSI = 2*pi*rand(M,N);
@@ -14,9 +14,6 @@ u = zeros(nt,nd);
 v = zeros(nt,nd);
 w = zeros(nt,nd);
 
-parfor i = 1:nd
-    % i: points index
-
     % Initialization
     % Wavenumber-Freq Spectrum matrix at a single point
     Sukf = zeros(M,N);    % Suu(km, fn)
@@ -30,6 +27,10 @@ parfor i = 1:nd
     kxmn = zeros(M,N);
     % Phase for wave(fn)
     Phmn = zeros(M,N);
+
+parfor i = 1:nd
+    % i: points index
+    
     % FFT matrix for velocity time series u, v, w
     % row: frequency index
     % 0, df, 2*df, ... , (N-1)*df
@@ -38,7 +39,6 @@ parfor i = 1:nd
     Uf = zeros(2*N-1, M);
     Vf = zeros(2*N-1, M);
     Wf = zeros(2*N-1, M);
-
     % Wave-freq. Spectrum matrix for point i
     Sukf = 2/pi * ones(M,1) * (Su0(:,i)'.*(Cxyz(1)*fvec/Uav(i))) ./ ...
         ((Cxyz(1)*fvec/Uav(i)).^2 + kvec.^2);

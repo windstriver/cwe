@@ -8,7 +8,7 @@ xlabel('$ f, \mathrm{Hz} $', 'Interpreter', 'latex');
 ylabel('$ S_{uu}, \mathrm{m^2 s^2 / Hz} $', 'Interpreter', 'latex');
 legend('Simulation','Target');
 title('Along-wind spectra');
-saveas(gcf, 'Suu', 'epsc')
+saveas(gcf, 'Suu', 'svg')
 
 %% Cross-wind speed spectra
 [Svv,freq] = pwelch(v(:,10),hann(2048),1024,2048,1/dt,'onesided');
@@ -20,7 +20,7 @@ xlabel('$ f, \mathrm{Hz} $', 'Interpreter', 'latex');
 ylabel('$ S_{vv}, \mathrm{m^2 s^2 / Hz} $', 'Interpreter', 'latex');
 legend('Simulation','Target');
 title('Cross-wind spectra');
-saveas(gcf, 'Svv', 'epsc')
+saveas(gcf, 'Svv', 'svg')
 
 %% Vertical wind speed spectra
 [Sww,freq] = pwelch(w(:,10),hann(2048),1024,2048,1/dt,'onesided');
@@ -32,5 +32,5 @@ xlabel('$ f, \mathrm{Hz} $', 'Interpreter', 'latex');
 ylabel('$ S_{ww}, \mathrm{m^2 s^2 / Hz} $', 'Interpreter', 'latex');
 legend('Simulation','Target');
 title('Vertical wind spectra');
-saveas(gcf, 'Sww', 'epsc')
+saveas(gcf, 'Sww', 'svg')
 

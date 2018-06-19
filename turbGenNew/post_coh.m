@@ -12,7 +12,6 @@ title('Coherency function');
 saveas(gcf, 'coherency', 'epsc')
 
 %% Spatial correlation factor
-% Target
 dzvec = zeros(1,length(Z));
 scfTarget = zeros(1,length(Z));
 scfSim = zeros(1,length(Z));
@@ -30,8 +29,7 @@ end
 figure;
 plot(dzvec,scfTarget,'r--',dzvec,scfSim,'b-');
 xlabel('Vertical distance (m)');
-ylabel('Spatial Correlation Factor');
+ylabel('Spatial correlation factor');
 legend('Target','Simulation');
 title('Spatial Correlation Factor');
-saveas(gcf, 'scf', 'epsc')
-
+saveas(gcf, 'scf', 'svg')
