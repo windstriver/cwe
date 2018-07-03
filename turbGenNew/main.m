@@ -108,12 +108,30 @@ parfor i = 1:nd
 end
 
 %% Save data to HDF5 database
-h5write(hdf5File,'/GRID',GRID');
-h5write(hdf5File,'/TIME',tvec);
-h5write(hdf5File,'/UMEAN',Uav);
-h5write(hdf5File,'/U',u);
-h5write(hdf5File,'/V',v);
-h5write(hdf5File,'/W',w);
+fileattrib(hdf5File,'+w');
+plist = 'H5P_DEFAULT';
+fid = H5F.open(hdf5File,'H5F_ACC_RDWR',plist);
+% write dataset /GRID
+dset_id = H5D.open(fid,'/GRID');
+H5D.write(dset_id,'H5ML_DEFAULT','H5S_ALL','H5S_ALL',plist,GRID);
+% write dataset /TIME
+dset_id = H5D.open(fid,'/TIME');
+H5D.write(dset_id,'H5ML_DEFAULT','H5S_ALL','H5S_ALL',plist,tvec);
+% write dataset /UMEAN
+dset_id = H5D.open(fid,'/UMEAN');
+H5D.write(dset_id,'H5ML_DEFAULT','H5S_ALL','H5S_ALL',plist,Uav);
+% write dataset /U
+dset_id = H5D.open(fid,'/U');
+H5D.write(dset_id,'H5ML_DEFAULT','H5S_ALL','H5S_ALL',plist,u);
+% write dataset /V
+dset_id = H5D.open(fid,'/V');
+H5D.write(dset_id,'H5ML_DEFAULT','H5S_ALL','H5S_ALL',plist,v);
+% write dataset /W
+dset_id = H5D.open(fid,'/W');
+H5D.write(dset_id,'H5ML_DEFAULT','H5S_ALL','H5S_ALL',plist,w);
+% close dataset and hdf5 file
+H5D.close(dset_id);
+H5F.close(fid);
 
 %% Post-processing scripts
 % post_psd
