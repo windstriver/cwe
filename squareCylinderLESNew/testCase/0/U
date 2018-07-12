@@ -1,0 +1,188 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.6                                   |
+|   \\  /    A nd           | Web:      http://www.OpenFOAM.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet
+    {
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        redirectType    turbInlet;
+
+        codeInclude
+        #{
+            #include "fvCFD.H"
+            #include "H5Cpp.h"
+        #};
+
+        codeOptions
+        #{
+            -I$(LIB_SRC)/finiteVolume/lnInclude \
+            -I$(LIB_SRC)/meshTools/lnInclude \
+            -I/home/wan39502/quanah.local/hdf5/include
+        #};
+
+        codeLibs
+        #{
+            -lfiniteVolume \
+            -lmeshTools \
+            -L/home/wan39502/quanah.local/hdf5/lib \
+            -lhdf5_hl_cpp \
+            -lhdf5_cpp \
+            -lhdf5_hl \
+            -lhdf5 \
+            -lpthread \
+            -lz \
+            -ldl \
+            -lm
+        #};
+
+        code
+        #{
+	    // Simulation startTime and deltaT
+            const scalar startTime = 0.0;
+            const scalar deltaT = 0.001;
+
+	    // Set vector field for inlet
+            const fvPatch& boundaryPatch = patch();
+            const vectorField& Cf = boundaryPatch.Cf();
+            vectorField& field = *this;
+
+            // Parameters for HDF5 databases
+            const std::string FILE_NAME("lesinlet.h5");
+            const std::string DATASET_NAME_UMEAN("UMEAN");
+            const std::string DATASET_NAME_U("U");
+            const std::string DATASET_NAME_V("V");
+            const std::string DATASET_NAME_W("W");
+            const std::string DATASET_NAME_GRID("GRID");
+            const std::string DATASET_NAME_TIME("TIME");
+
+            // Open HDF5 file
+            H5::H5File file(FILE_NAME, H5F_ACC_RDONLY);
+	    
+	    // Open dataset U
+            H5::DataSet dataset = file.openDataSet(DATASET_NAME_U);
+	    
+	    // Get dataset dataspace
+            H5::DataSpace dataspace = dataset.getSpace();
+	    
+	    // Get dimensions of dataspace
+            hsize_t dims[2];
+            int ndims = dataspace.getSimpleExtentDims(dims, NULL);
+
+	    // Constants to control the reading of HDF5 file
+	    const int RANK = ndims;
+            const int DIM0 = dims[0];
+            const int DIM1 = dims[1];
+	    const int DIM0_SUB = DIM0;
+	    const int DIM1_SUB = 6001;    // modify the length of the simulation
+	    
+	    // Specify size and shape of subset to read
+	    hsize_t offset[2], count[2], stride[2], block[2];
+	    offset[0] = 0;
+	    offset[1] = 0;
+	    count[0] = DIM0_SUB;
+	    count[1] = DIM1_SUB;
+	    stride[0] = 1;
+	    stride[1] = 1;
+	    block[0] = 1;
+	    block[1] = 1;
+
+            // Define the memory dataspace
+            hsize_t dimsm[2];
+            dimsm[0] = DIM0_SUB;
+            dimsm[1] = DIM1_SUB;
+            H5::DataSpace memspace(RANK, dimsm, NULL);
+
+	    // Select a subset from the file space
+	    dataspace.selectHyperslab(H5S_SELECT_SET, count, offset, stride, block);
+
+	    // Read subset of dataset to u velocity
+            double u[DIM0_SUB][DIM1_SUB];
+            dataset.read(u, H5::PredType::NATIVE_DOUBLE, memspace, dataspace);
+
+            // Read subset of dataset to v velocity
+	    double v[DIM0_SUB][DIM1_SUB];
+            dataset = file.openDataSet(DATASET_NAME_V);
+            dataspace = dataset.getSpace();
+	    dataspace.selectHyperslab(H5S_SELECT_SET, count, offset, stride, block);
+	    dataset.read(v, H5::PredType::NATIVE_DOUBLE, memspace, dataspace);
+
+            // Read subset of dataset to w velocity
+	    double w[DIM0_SUB][DIM1_SUB];
+            dataset = file.openDataSet(DATASET_NAME_W);
+            dataspace = dataset.getSpace();
+	    dataspace.selectHyperslab(H5S_SELECT_SET, count, offset, stride, block);
+	    dataset.read(w, H5::PredType::NATIVE_DOUBLE, memspace, dataspace);
+
+            // Read subset of dataset to umean
+            double Umean[DIM0];
+            dataset = file.openDataSet(DATASET_NAME_UMEAN);
+            dataspace = dataset.getSpace();
+            dataset.read(Umean, H5::PredType::NATIVE_DOUBLE);
+
+            // Current time
+            scalar time = this->db().time().value();
+	    // time index
+            int tI = static_cast<int> ((time - startTime) / deltaT);
+
+            forAll(Cf, faceI)
+            {
+                field[faceI] =
+                    vector
+                    (
+                        u[faceI][tI] + Umean[faceI],
+                        v[faceI][tI],
+                        w[faceI][tI]
+                    );
+            }
+        #};
+    }
+
+    outlet
+    {
+        type            pressureInletOutletVelocity;
+        value           uniform (0 0 0);
+    }
+
+    ground
+    {
+        type            fixedValue;
+        value           uniform ( 0 0 0 );
+    }
+
+    building
+    {
+        type            fixedValue;
+        value           uniform ( 0 0 0 );
+    }
+
+    sides
+    {
+        type            symmetry;
+    }
+
+    top
+    {
+        type            symmetry;
+    }
+}
+
+// ************************************************************************* //
