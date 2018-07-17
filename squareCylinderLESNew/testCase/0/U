@@ -36,14 +36,14 @@ boundaryField
         #{
             -I$(LIB_SRC)/finiteVolume/lnInclude \
             -I$(LIB_SRC)/meshTools/lnInclude \
-            -I/home/wan39502/quanah.local/hdf5/include
+	    -I/opt/ohpc/pub/libs/gnu7/hdf5/1.10.1/include
         #};
 
         codeLibs
         #{
             -lfiniteVolume \
             -lmeshTools \
-            -L/home/wan39502/quanah.local/hdf5/lib \
+            -L/opt/ohpc/pub/libs/gnu7/hdf5/1.10.1/lib \
             -lhdf5_hl_cpp \
             -lhdf5_cpp \
             -lhdf5_hl \
@@ -66,7 +66,7 @@ boundaryField
             vectorField& field = *this;
 
             // Parameters for HDF5 databases
-            const std::string FILE_NAME("lesinlet.h5");
+            const std::string FILE_NAME("../lesinlet.h5");
             const std::string DATASET_NAME_UMEAN("UMEAN");
             const std::string DATASET_NAME_U("U");
             const std::string DATASET_NAME_V("V");
@@ -90,7 +90,7 @@ boundaryField
 	    // Constants to control the reading of HDF5 file
 	    const int RANK = ndims;
             const int DIM0 = dims[0];
-            const int DIM1 = dims[1];
+            //const int DIM1 = dims[1];
 	    const int DIM0_SUB = DIM0;
 	    const int DIM1_SUB = 6001;    // modify the length of the simulation
 	    
@@ -153,6 +153,12 @@ boundaryField
                         w[faceI][tI]
                     );
             }
+
+	    dataspace.close();
+	    memspace.close();
+	    dataset.close();
+	    file.close();
+
         #};
     }
 

@@ -2,14 +2,14 @@
 #$ -V
 #$ -cwd
 #$ -S /bin/bash
-#$ -N TURBGEN
+#$ -N TURB_GEN
 #$ -o $JOB_NAME.o$JOB_ID
 #$ -e $JOB_NAME.e$JOB_ID
 #$ -q omni
-#$ -pe mpi 144
+#$ -pe mpi 72
 #$ -P quanah
 
-module load matlab
+module load matlab/R2017b
 matlab -nodisplay -nosplash < main.m
 #matlab -nodisplay -nosplash < post_inhomo.m
 
