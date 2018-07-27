@@ -52,50 +52,47 @@ int main(int argc, char *argv[])
         )
     );
 
-    // Info<< mesh.C() << endl;
-    // Info<< mesh.V() << endl;
-
     // Return a list of patch names
     // wordList patchNames = mesh.boundaryMesh().names();
     // Info<< "List of patch names: " << patchNames << endl;
 
     // Find patch index given a patch name
-    label patchI = mesh.boundaryMesh().findPatchID("building");
-    //Info<< "Patch index for building is: " << patchI << endl;
+    label patchInlet = mesh.boundaryMesh().findPatchID("inlet");
+    label patchBuilding = mesh.boundaryMesh().findPatchID("building");
 
-    // Return face centres as surfaceVectorField
-    // surfaceVectorField faceCentres = mesh.Cf();
-    // Info<< "surfaceVectorField: " << faceCentres << endl;
-
-    const vectorField& faceCentres = mesh.Cf().boundaryField()[patchI];
-    // Info<< "faceCentres on patch fixedWalls" << nl << faceCentres << endl;
+    const vectorField& faceCentresInlet = mesh.Cf().boundaryField()[patchInlet];
+    const vectorField& faceCentresBuilding = mesh.Cf().boundaryField()[patchBuilding];
 
     // Write patch centres to a file
-    fileName outputFile("buildingPatchFaceCentres");
-    // fileName outputFile("inletPatchFaceCentres");
+    fileName outputFile("inletPatchFaceCentres");
+    fileName outputFile2("buildingPatchFaceCentres");
+    
+    // Write inlet face centres to file
     OFstream os(outputFile);
-
-    forAll(faceCentres, faceI)
+    forAll(faceCentresInlet, faceI)
     {
-        os << faceCentres[faceI] << endl;
+      os << faceI << ","
+    	 << faceCentresInlet[faceI].x() << ","
+     	 << faceCentresInlet[faceI].y() << ","
+     	 << faceCentresInlet[faceI].z() << endl;
     }
-    // forAll(faceCentres, faceI)
-    // {
-    //   os << faceI << ","
-    // 	 << faceCentres[faceI].x() << ","
-    // 	 << faceCentres[faceI].y() << ","
-    // 	 << faceCentres[faceI].z() << endl;
-    // }
 
+    // Write building face centres for post-processing
+    OFstream os2(outputFile2);
+    forAll(faceCentresBuilding, faceI)
+    {
+        os2 << faceCentresBuilding[faceI] << endl;
+    }
+  
     // Return face area vector as surfaceVectorField
-    const vectorField& faceAreaVectors = mesh.Sf().boundaryField()[patchI];
+    const vectorField& faceAreaVectors = mesh.Sf().boundaryField()[patchBuilding];
     // Write face area vectors to a file
-    fileName outputFileSf("buildingPatchFaceAreaVectors");
-    OFstream os2(outputFileSf);
+    fileName outputFile3("buildingPatchFaceAreaVectors");
+    OFstream os3(outputFile3);
 
     forAll(faceAreaVectors, faceI)
     {
-        os2 << faceAreaVectors[faceI].x() << "," 
+        os3 << faceAreaVectors[faceI].x() << "," 
             << faceAreaVectors[faceI].y() << "," 
             << faceAreaVectors[faceI].z() << endl;
     }
@@ -104,6 +101,5 @@ int main(int argc, char *argv[])
 
     return 0;
 }
-
 
 // ************************************************************************* //
