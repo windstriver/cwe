@@ -14,7 +14,7 @@ import numpy as np
 import pandas as pd
 
 # Directory of boundaryCloud for building
-postDir = '../postProcessing/boundaryCloudBuilding/'
+postDir = '/lustre/work/wan39502/squareCylinderLESNew3/testCase/postProcessing/boundaryCloudBuilding/'
 # List of time directories
 timeDirList = os.listdir(postDir)
 timeNo = np.size(timeDirList)

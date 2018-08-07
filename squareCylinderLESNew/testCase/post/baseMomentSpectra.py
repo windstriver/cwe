@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 plt.rc('text', usetex=True)
 
 # Read the base moment time history from csv
-baseMomentData = np.genfromtxt('baseMomentTimeHistoryNew.csv', \
+baseMomentData = np.genfromtxt('baseMomentTimeHistory.csv', \
                                delimiter=',', skip_header=1)
 
 time = baseMomentData[-5000:,0]
@@ -26,7 +26,37 @@ Mt = baseMomentData[-5000:,3]
 deltaT = 1e-3
 fs = 1/deltaT    # sampling frequency
 B = 0.06096      # building width
+D = B;
+H = 0.3658
 Vh = 5           # reference velocity at building height
+rho = 1.225;
+
+# Plot base moments time history
+Myref = 1/2*rho*Vh**2*B*H**2
+Mxref = 1/2*rho*Vh**2*D*H**2
+Mtref = 1/2*rho*Vh**2*D*B*H
+
+fig = plt.figure()
+ax = fig.add_subplot(311)
+ax.plot(time, My/Myref)
+ax.set_xlabel('Time (s)')
+ax.set_ylabel(r'$M_y/M_{yref}$')
+ax.set_title('Along-wind base moment time history')
+
+ax = fig.add_subplot(312)
+ax.plot(time, Mx/Mxref)
+ax.set_xlabel('Time (s)')
+ax.set_ylabel(r'$M_x/M_{xref}$')
+ax.set_title('Cross-wind base moment time history')
+
+ax = fig.add_subplot(313)
+ax.plot(time, Mt/Mtref)
+ax.set_xlabel('Time (s)')
+ax.set_ylabel(r'$M_t/M_{tref}$')
+ax.set_title('Torsional base moment time history')
+
+fig.savefig('base_moments_time_history.svg')
+
 
 # Read experimental PSD data
 PSD_My = np.genfromtxt('PSD_along_wind_base_moment.csv', \
