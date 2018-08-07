@@ -1,15 +1,29 @@
+%% Read turbulent velocity from HDF5 database
+u = h5read(hdf5File, '/U');
+v = h5read(hdf5File, '/V');
+w = h5read(hdf5File, '/W');
+
 %% Comparison of coherency function with that of Davenport
-[Coh, freqCoh] = mscohere(u(:,2),u(:,4),hann(512),256,512,1/dt);
-fvecRe = fvec*(Z(4)-Z(2))/((Uav(2)+Uav(4))/2);
+pt1 = find(Z==0.1);    % point z = 0.1 index
+pt2 = find(Z==0.3);    % point z = 0.3 index
+% Coherency of u velocity between pt1 and pt2
+[msCohu, freqCohu] = mscohere(u(:,pt1), u(:,pt2), hann(512), 256, 512, 1/dt);
+[msCohv, freqCohv] = mscohere(v(:,pt1), v(:,pt2), hann(512), 256, 512, 1/dt);
+[msCohw, freqCohw] = mscohere(w(:,pt1), w(:,pt2), hann(512), 256, 512, 1/dt);
+
 figure;
-plot(freqCoh,Coh,'b-',...
-    fvec,exp(-Cxyz(1)*fvecRe),'r--')
-xlabel('$ f(\mathrm{Hz}) $', 'Interpreter', 'latex')
-ylabel('Coherency')
-legend('Simulation', 'Target')
-xlim([0,25])
-title('Coherency function');
-saveas(gcf, 'coherency', 'epsc')
+plot(freqCohu, msCohu, 'b--', ...
+    freqCohv, msCohv, 'g:', ...
+    freqCohw, msCohw, 'm-.', ...
+    fvec, exp(-Cxyz(1)*fvec*(Z(pt2)-Z(pt1))/((Uav(pt1)+Uav(pt2))/2)),'r-')
+xlabel('$ f(\mathrm{Hz}) $', 'Interpreter', 'latex');
+ylabel('Coherency');
+leg1 = legend('$Coh(u_1, u_2)$', '$Coh(v_1, v_2)$', '$Coh(w_1, w_2)$', 'Target');
+set(leg1, 'Interpreter', 'latex');
+xlim([0,25]);
+title('Coherency of velocity between two points $(z_1=0.1\,\mathrm{m}, z_2=0.3\,\mathrm{m})$', ...
+    'Interpreter', 'latex');
+saveas(gcf, 'homo_turb_coh_uvw', 'svg');
 
 %% Spatial correlation factor
 dzvec = zeros(1,length(Z));
@@ -29,7 +43,8 @@ end
 figure;
 plot(dzvec,scfTarget,'r--',dzvec,scfSim,'b-');
 xlabel('Vertical distance (m)');
-ylabel('Spatial correlation factor');
+ylabel('$Sc_{i,j}$', 'Interpreter', 'latex');
 legend('Target','Simulation');
-title('Spatial Correlation Factor');
-saveas(gcf, 'scf', 'svg')
+title('Correlation coefficient of $u_i$ and $u_j$', ...
+    'Interpreter', 'latex');
+saveas(gcf, 'homo_turb_scf', 'svg')
