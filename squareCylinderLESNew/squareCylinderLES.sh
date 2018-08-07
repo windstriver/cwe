@@ -2,7 +2,7 @@
 #$ -V
 #$ -cwd
 #$ -S /bin/bash
-#$ -N LES_NEW
+#$ -N LES_NEW3
 #$ -o $JOB_NAME.o$JOB_ID
 #$ -e $JOB_NAME.e$JOB_ID
 #$ -q omni
@@ -17,13 +17,9 @@ cd testCase
 
 #checkMesh
 
-#../bin/createHDF5
-
-#../bin/writeHDF5
+#../bin/writePatchCentres
 
 decomposePar
-
-#module load gnu openmpi
 
 mpirun -np $NSLOTS pimpleFoam -parallel
 

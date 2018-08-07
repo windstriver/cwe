@@ -44,20 +44,14 @@ boundaryField
             -lfiniteVolume \
             -lmeshTools \
             -L/opt/ohpc/pub/libs/gnu7/hdf5/1.10.1/lib \
-            -lhdf5_hl_cpp \
             -lhdf5_cpp \
-            -lhdf5_hl \
-            -lhdf5 \
-            -lpthread \
-            -lz \
-            -ldl \
-            -lm
+            -lhdf5
         #};
 
         code
         #{
 	    // Simulation startTime and deltaT
-            const scalar startTime = 0.0;
+            const scalar startTime = 0;
             const scalar deltaT = 0.001;
 
 	    // Set vector field for inlet
