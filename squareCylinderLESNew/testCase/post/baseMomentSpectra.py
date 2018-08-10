@@ -8,7 +8,7 @@ Calculate the spectra of base moment time history.
 import numpy as np
 from scipy import signal
 import matplotlib as mpl
-mpl.use('SVG')
+# mpl.use('SVG')
 import matplotlib.pyplot as plt
 
 plt.rc('text', usetex=True)
@@ -37,20 +37,22 @@ Mxref = 1/2*rho*Vh**2*D*H**2
 Mtref = 1/2*rho*Vh**2*D*B*H
 
 fig = plt.figure()
+plt.subplots_adjust(hspace=0.8)
+
 ax = fig.add_subplot(311)
-ax.plot(time, My/Myref)
+ax.plot(time, My/Myref, lw=0.1)
 ax.set_xlabel('Time (s)')
 ax.set_ylabel(r'$M_y/M_{yref}$')
 ax.set_title('Along-wind base moment time history')
 
 ax = fig.add_subplot(312)
-ax.plot(time, Mx/Mxref)
+ax.plot(time, Mx/Mxref, lw=0.1)
 ax.set_xlabel('Time (s)')
 ax.set_ylabel(r'$M_x/M_{xref}$')
 ax.set_title('Cross-wind base moment time history')
 
 ax = fig.add_subplot(313)
-ax.plot(time, Mt/Mtref)
+ax.plot(time, Mt/Mtref, lw=0.1)
 ax.set_xlabel('Time (s)')
 ax.set_ylabel(r'$M_t/M_{tref}$')
 ax.set_title('Torsional base moment time history')
