@@ -168,7 +168,7 @@ H5T.close(type_id);
 H5D.close(dset_id);
 H5F.close(fid);
 
-h5disp(hdf5File);
+% h5disp(hdf5File);
 
 %% Save data to HDF5 database
 fileattrib(hdf5File,'+w');

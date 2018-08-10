@@ -10,6 +10,6 @@
 #$ -P quanah
 
 module load matlab
-#matlab -nodisplay -nosplash < main.m
-matlab -nodisplay -nosplash < post_inhomo.m
+matlab -nodisplay -nosplash < main.m
+# matlab -nodisplay -nosplash < post_inhomo.m
 

@@ -14,7 +14,7 @@ import numpy as np
 import pandas as pd
 
 # Directory of boundaryCloud for building
-postDir = '/lustre/work/wan39502/squareCylinderLESNew3/testCase/postProcessing/boundaryCloudBuilding/'
+postDir = '/lustre/work/wan39502/squareCylinderLES/testCase/postProcessing/boundaryCloudBuilding/'
 # List of time directories
 timeDirList = os.listdir(postDir)
 timeNo = np.size(timeDirList)
@@ -37,10 +37,11 @@ ptDataFrame.to_csv('buildingPatchCentres.csv')
 presDataFrame = pd.DataFrame(np.zeros((ptNo, timeNo)), \
                              columns = timeDirList)
 
+presInletDF = pd.read_csv('presInlet.csv', index_col=0)
+
 for timeDir in timeDirList:
     pTemp = np.genfromtxt(postDir+timeDir+'/cloud_p.xy')
-    presDataFrame.loc[:, timeDir] = pTemp[:, 3]
-
+    presDataFrame.loc[:, timeDir] = pTemp[:, 3] - presInletDF.loc[0, timeDir]
 
 # Sort the time histories by increasing time
 presDataFrame = presDataFrame.sort_index(axis=1)

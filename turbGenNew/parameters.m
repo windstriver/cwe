@@ -14,8 +14,8 @@ nd = size(GRID,1);  % overall number of points
 % Uh:     Mean velocity at h0u
 % alphau: Power low exponent of the mean velocity
 h0u = 0.364;
-% alphau = 0.326;
-alphau = 0;
+alphau = 0.326;
+% alphau = 0;
 Uh = 10.0;
 
 %% Turbulent intensity
@@ -30,12 +30,12 @@ h0I = 0.364;
 Iuh = 0.208;
 Ivh = 0.182;
 Iwh = 0.152;
-% dIu = -0.191;
-dIu = 0;
-% dIv = -0.123;
-dIv = 0;
-% dIw = -0.005;
-dIw = 0;
+dIu = -0.191;
+% dIu = 0;
+dIv = -0.123;
+% dIv = 0;
+dIw = -0.005;
+% dIw = 0;
 
 %% Turbulence length scale
 % h0L:    Reference height for the length scale
@@ -49,12 +49,12 @@ h0L = 0.254;
 Luh = 0.302;
 Lvh = 0.0815;
 Lwh = 0.0326;
-% dLu = 0.473;
-dLu = 0;
-% dLv = 0.881;
-dLv = 0;
-% dLw = 1.539;
-dLw = 0;
+dLu = 0.473;
+% dLu = 0;
+dLv = 0.881;
+% dLv = 0;
+dLw = 1.539;
+% dLw = 0;
 
 %% Coherency decay constants
 % Cxyz:   Coherency decay constants in x, y and z directions [1 3] matrix
@@ -119,4 +119,5 @@ Sw0 = 4*ones(N,1)*((Iw'.*Uav').^2.*(Lw'./Uav')) .* ...
     (1 + 70.8*(2*fvec'*(Lw'./Uav')).^2).^(11/6);
 
 %% HDF5 file name to store simulated data
-hdf5File = 'homo_turb_validation.h5';
+hdf5File = 'inhomo_turb_validation.h5';
+
