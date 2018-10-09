@@ -1,3 +1,0 @@
-createHDF5.C
-
-EXE = ../bin/createHDF5
