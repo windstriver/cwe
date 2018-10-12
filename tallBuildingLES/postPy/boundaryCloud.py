@@ -69,14 +69,14 @@ def integralTimeScale(x, deltaT):
         integral time scale
     '''
     N = len(x)
+    x = x - np.mean(x)
     autoCorrFun = np.correlate(x, x, mode='full') / np.correlate(x, x)
     mask = np.ones(len(autoCorrFun), dtype=bool)
     mask[:N-1] = False
     autoCorrFun = autoCorrFun[mask]
-    mask = np.ones(len(autoCorrFun), dtype=bool)
-    mask[np.argmax(autoCorrFun),:] = False
-    autoCorrFun = autoCorrFun[mask]
-    
-    return np.sum(autoCorrFun) * deltaT
-
+    M = np.argmax(autoCorrFun < 0) 
+    if M == 0:
+        return np.trapz(autoCorrFun) * deltaT
+    else:
+        return np.trapz(autoCorrFun[:M]) * deltaT
 
