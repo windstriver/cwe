@@ -1,0 +1,47 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  3.0.x                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+turbine-forces-and-moments
+{
+        type            forces;
+        functionObjectLibs ("libforces.so");
+        writeControl   timeStep;
+        writeInterval  1;
+        log             true;
+        patches     (
+            blade1-pressureSide1
+            blade1-pressureSide2
+            blade1-suctionSide1
+            blade1-suctionSide2
+            blade1-cap
+            blade2-pressureSide1
+            blade2-pressureSide2
+            blade2-suctionSide1
+            blade2-suctionSide2
+            blade2-cap
+            blade3-pressureSide1
+            blade3-pressureSide2
+            blade3-suctionSide1
+            blade3-suctionSide2
+            blade3-cap
+        );
+        pName       p;
+        UName       U;
+        rho         rhoInf;
+        rhoInf      1.2;
+        origin  (1.510229221 0 1.672068885);
+        coordinateRotation
+        {
+            type    axesRotation;
+            e1      (0.993572 0 0.113203);
+            e2      (0 1 0);
+        }
+}
+
+
+// ************************************************************************* //

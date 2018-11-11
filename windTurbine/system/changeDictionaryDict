@@ -1,0 +1,80 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  3.0.x                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+|*---------------------------------------------------------------------------*|
+|  File created by CFD support s.r.o., Wed Feb  1 13:46:42 2017               |
+|                    http://www.cdfsupport.com                                |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     3.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      changeDictionaryDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+boundary
+    {
+        rotBox1-inlet
+        {
+            type            cyclicAMI;
+            inGroups        1(cyclicAMI);
+            matchTolerance  0.0001;
+            transform       noOrdering;
+            neighbourPatch  rotBox2-inlet;
+            lowWeightCorrection 0.2;
+        }
+        rotBox1-outlet
+        {
+            type            cyclicAMI;
+            inGroups        1(cyclicAMI);
+            matchTolerance  0.0001;
+            transform       noOrdering;
+            neighbourPatch  rotBox2-outlet;
+            lowWeightCorrection 0.2;
+        }
+        rotBox1-side
+        {
+            type            cyclicAMI;
+            inGroups        1(cyclicAMI);
+            matchTolerance  0.0001;
+            transform       noOrdering;
+            neighbourPatch  rotBox2-side;
+            lowWeightCorrection 0.2;
+        }   
+        rotBox2-inlet
+        {
+            type            cyclicAMI;
+            inGroups        1(cyclicAMI);
+            matchTolerance  0.0001;
+            transform       noOrdering;
+            neighbourPatch  rotBox1-inlet;
+            lowWeightCorrection 0.2;
+        }
+        rotBox2-outlet
+        {
+            type            cyclicAMI;
+            inGroups        1(cyclicAMI);
+            matchTolerance  0.0001;
+            transform       noOrdering;
+            neighbourPatch  rotBox1-outlet;
+            lowWeightCorrection 0.2;
+        }
+        rotBox2-side
+        {
+            type            cyclicAMI;
+            inGroups        1(cyclicAMI);
+            matchTolerance  0.0001;
+            transform       noOrdering;
+            neighbourPatch  rotBox1-side;
+            lowWeightCorrection 0.2;
+        }
+}
+
+
+// ************************************************************************* //
