@@ -1,0 +1,166 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  5.x                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : 5.x-68e8507efb72
+Exec   : surfaceCheck roughnessBlocks.stl
+Date   : Nov 26 2018
+Time   : 19:15:10
+Host   : "lab"
+PID    : 17401
+I/O    : uncollated
+Case   : /home/yw/OpenFOAM/yw-5.0/run/roughnessBlocks/constant/triSurface
+nProcs : 1
+sigFpe : Enabling floating point exception trapping (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Reading surface from "roughnessBlocks.stl" ...
+
+Statistics:
+Triangles    : 1020
+Vertices     : 680
+Bounding Box : (-1.365 -1.047 0) (-0.685 1.047 0.03)
+
+Region	Size
+------	----
+Onshape	1020
+
+
+Surface has no illegal triangles.
+
+Triangle quality (equilateral=1, collapsed=0):
+    0 .. 0.05  : 0
+    0.05 .. 0.1  : 0
+    0.1 .. 0.15  : 0
+    0.15 .. 0.2  : 0
+    0.2 .. 0.25  : 0
+    0.25 .. 0.3  : 0
+    0.3 .. 0.35  : 0
+    0.35 .. 0.4  : 0
+    0.4 .. 0.45  : 0
+    0.45 .. 0.5  : 0
+    0.5 .. 0.55  : 0
+    0.55 .. 0.6  : 0
+    0.6 .. 0.65  : 0
+    0.65 .. 0.7  : 0
+    0.7 .. 0.75  : 0
+    0.75 .. 0.8  : 1
+    0.8 .. 0.85  : 0
+    0.85 .. 0.9  : 0
+    0.9 .. 0.95  : 0
+    0.95 .. 1  : 0
+
+    min 0.7698 for triangle 516
+    max 0.7698 for triangle 354
+
+Edges:
+    min 0.03 for edge 55 points (-1.335 0.501 0)(-1.365 0.501 0)
+    max 0.0424272 for edge 1332 points (-1.00389 0.918412 0)(-0.973889 0.888412 0)
+
+Checking for points less than 1e-6 of bounding box ((0.68 2.094 0.03) metre) apart.
+Found 0 nearby points.
+
+Surface is closed. All edges connected to two faces.
+
+Number of unconnected parts : 85
+Splitting surface into parts ...
+
+Writing zoning to "zone_roughnessBlocks.vtk"...
+
+writing part 0 size 12 to "roughnessBlocks_0.obj"
+writing part 1 size 12 to "roughnessBlocks_1.obj"
+writing part 2 size 12 to "roughnessBlocks_2.obj"
+writing part 3 size 12 to "roughnessBlocks_3.obj"
+writing part 4 size 12 to "roughnessBlocks_4.obj"
+writing part 5 size 12 to "roughnessBlocks_5.obj"
+writing part 6 size 12 to "roughnessBlocks_6.obj"
+writing part 7 size 12 to "roughnessBlocks_7.obj"
+writing part 8 size 12 to "roughnessBlocks_8.obj"
+writing part 9 size 12 to "roughnessBlocks_9.obj"
+writing part 10 size 12 to "roughnessBlocks_10.obj"
+writing part 11 size 12 to "roughnessBlocks_11.obj"
+writing part 12 size 12 to "roughnessBlocks_12.obj"
+writing part 13 size 12 to "roughnessBlocks_13.obj"
+writing part 14 size 12 to "roughnessBlocks_14.obj"
+writing part 15 size 12 to "roughnessBlocks_15.obj"
+writing part 16 size 12 to "roughnessBlocks_16.obj"
+writing part 17 size 12 to "roughnessBlocks_17.obj"
+writing part 18 size 12 to "roughnessBlocks_18.obj"
+writing part 19 size 12 to "roughnessBlocks_19.obj"
+writing part 20 size 12 to "roughnessBlocks_20.obj"
+writing part 21 size 12 to "roughnessBlocks_21.obj"
+writing part 22 size 12 to "roughnessBlocks_22.obj"
+writing part 23 size 12 to "roughnessBlocks_23.obj"
+writing part 24 size 12 to "roughnessBlocks_24.obj"
+writing part 25 size 12 to "roughnessBlocks_25.obj"
+writing part 26 size 12 to "roughnessBlocks_26.obj"
+writing part 27 size 12 to "roughnessBlocks_27.obj"
+writing part 28 size 12 to "roughnessBlocks_28.obj"
+writing part 29 size 12 to "roughnessBlocks_29.obj"
+writing part 30 size 12 to "roughnessBlocks_30.obj"
+writing part 31 size 12 to "roughnessBlocks_31.obj"
+writing part 32 size 12 to "roughnessBlocks_32.obj"
+writing part 33 size 12 to "roughnessBlocks_33.obj"
+writing part 34 size 12 to "roughnessBlocks_34.obj"
+writing part 35 size 12 to "roughnessBlocks_35.obj"
+writing part 36 size 12 to "roughnessBlocks_36.obj"
+writing part 37 size 12 to "roughnessBlocks_37.obj"
+writing part 38 size 12 to "roughnessBlocks_38.obj"
+writing part 39 size 12 to "roughnessBlocks_39.obj"
+writing part 40 size 12 to "roughnessBlocks_40.obj"
+writing part 41 size 12 to "roughnessBlocks_41.obj"
+writing part 42 size 12 to "roughnessBlocks_42.obj"
+writing part 43 size 12 to "roughnessBlocks_43.obj"
+writing part 44 size 12 to "roughnessBlocks_44.obj"
+writing part 45 size 12 to "roughnessBlocks_45.obj"
+writing part 46 size 12 to "roughnessBlocks_46.obj"
+writing part 47 size 12 to "roughnessBlocks_47.obj"
+writing part 48 size 12 to "roughnessBlocks_48.obj"
+writing part 49 size 12 to "roughnessBlocks_49.obj"
+writing part 50 size 12 to "roughnessBlocks_50.obj"
+writing part 51 size 12 to "roughnessBlocks_51.obj"
+writing part 52 size 12 to "roughnessBlocks_52.obj"
+writing part 53 size 12 to "roughnessBlocks_53.obj"
+writing part 54 size 12 to "roughnessBlocks_54.obj"
+writing part 55 size 12 to "roughnessBlocks_55.obj"
+writing part 56 size 12 to "roughnessBlocks_56.obj"
+writing part 57 size 12 to "roughnessBlocks_57.obj"
+writing part 58 size 12 to "roughnessBlocks_58.obj"
+writing part 59 size 12 to "roughnessBlocks_59.obj"
+writing part 60 size 12 to "roughnessBlocks_60.obj"
+writing part 61 size 12 to "roughnessBlocks_61.obj"
+writing part 62 size 12 to "roughnessBlocks_62.obj"
+writing part 63 size 12 to "roughnessBlocks_63.obj"
+writing part 64 size 12 to "roughnessBlocks_64.obj"
+writing part 65 size 12 to "roughnessBlocks_65.obj"
+writing part 66 size 12 to "roughnessBlocks_66.obj"
+writing part 67 size 12 to "roughnessBlocks_67.obj"
+writing part 68 size 12 to "roughnessBlocks_68.obj"
+writing part 69 size 12 to "roughnessBlocks_69.obj"
+writing part 70 size 12 to "roughnessBlocks_70.obj"
+writing part 71 size 12 to "roughnessBlocks_71.obj"
+writing part 72 size 12 to "roughnessBlocks_72.obj"
+writing part 73 size 12 to "roughnessBlocks_73.obj"
+writing part 74 size 12 to "roughnessBlocks_74.obj"
+writing part 75 size 12 to "roughnessBlocks_75.obj"
+writing part 76 size 12 to "roughnessBlocks_76.obj"
+writing part 77 size 12 to "roughnessBlocks_77.obj"
+writing part 78 size 12 to "roughnessBlocks_78.obj"
+writing part 79 size 12 to "roughnessBlocks_79.obj"
+writing part 80 size 12 to "roughnessBlocks_80.obj"
+writing part 81 size 12 to "roughnessBlocks_81.obj"
+writing part 82 size 12 to "roughnessBlocks_82.obj"
+writing part 83 size 12 to "roughnessBlocks_83.obj"
+writing part 84 size 12 to "roughnessBlocks_84.obj"
+
+Number of zones (connected area with consistent normal) : 85
+More than one normal orientation.
+
+
+End
+
