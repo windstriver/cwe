@@ -1,0 +1,42 @@
+-catch_rsh /export/uge/default/spool/compute-3-15/compute-3-15/active_jobs/458631.1/pe_hostfile
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+compute-3-15
+Running surfaceFeatureExtract on /lustre/work/wan39502/roughnessBlocksCoarse
+Running blockMesh on /lustre/work/wan39502/roughnessBlocksCoarse
+Running decomposePar on /lustre/work/wan39502/roughnessBlocksCoarse
+Running snappyHexMesh in parallel on /lustre/work/wan39502/roughnessBlocksCoarse using 36 processes
+Running patchSummary in parallel on /lustre/work/wan39502/roughnessBlocksCoarse using 36 processes
