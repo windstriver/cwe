@@ -33,24 +33,19 @@ boundaryField
         value           uniform 0;
     }
 
-    lowerWall
+    ground
     {
         type            zeroGradient;
     }
 
-    upperWall
+    top
     {
-        type            slip;
+        type            symmetry;
     }
 
     frontAndBack
     {
-        type            slip;
-    }
-
-    roughnessBlocksGroup
-    {
-        type            zeroGradient;
+        type            symmetry;
     }
 }
 

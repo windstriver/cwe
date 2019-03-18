@@ -2,7 +2,7 @@
 #$ -V
 #$ -cwd
 #$ -S /bin/bash
-#$ -N turbGen
+#$ -N LES
 #$ -o $JOB_NAME.o$JOB_ID
 #$ -e $JOB_NAME.e$JOB_ID
 #$ -q omni
@@ -37,7 +37,7 @@ cd ${JOBDIR}/testCase
 [ ! -d 0 ] && cp -r 0.orig 0
 
 # Decompose the mesh
-runApplication decomposePar
+# runApplication decomposePar
 
 # pisoFoam solver
 runParallel $(getApplication)

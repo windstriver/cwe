@@ -23,9 +23,9 @@ startTime       0;
 
 stopAt          endTime;
 
-endTime         1.2;
+endTime         24;
 
-deltaT          2e-05;
+deltaT          2e-04;
 
 writeControl    timeStep;
 
@@ -53,7 +53,38 @@ maxDeltaT         2.0e-3;
 
 functions
 {
-    #includeFunc internalCloudUUpstream
+    #includeFunc wallShearStress
+
+    fieldAverage1
+    {
+        type            fieldAverage;
+        libs            ("libfieldFunctionObjects.so");
+        writeControl    writeTime;
+
+        fields
+        (
+            U
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+		window      6;
+            }
+
+            wallShearStress
+            {
+                mean        on;
+                prime2Mean  off;
+                base        time;
+		window      6;
+            }
+
+        );
+    }
+
+    #includeFunc internalCloudU
+    #includeFunc internalCloudUMean
+    #includeFunc boundaryCloudwallShearStressMean
 }
 
 // ************************************************************************* //

@@ -30,26 +30,21 @@ boundaryField
         type            zeroGradient;
     }
 
-    lowerWall 
+    ground 
     {
-        type            zeroGradient;
+        type            nutUSpaldingWallFunction;
+        value           uniform 1.08;
     }
 
-    upperWall
+    top
     {
-        type            slip;
+        type            symmetry;
     }
 
     frontAndBack
     {
-        type            slip;
+        type            symmetry;
     }
-
-    roughnessBlocksGroup
-    {
-        type            zeroGradient;
-    }
-
 }
 
 // ************************************************************************* //

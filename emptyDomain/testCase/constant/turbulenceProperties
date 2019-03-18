@@ -19,7 +19,7 @@ simulationType  LES;
 
 LES
 {
-  LESModel        kEqn;
+  LESModel        WALE;
 
   turbulence      on;
 

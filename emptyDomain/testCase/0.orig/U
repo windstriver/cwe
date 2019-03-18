@@ -16,7 +16,7 @@ FoamFile
 
 dimensions      [0 1 -1 0 0 0 0];
 
-internalField   uniform (11.11 0 0);
+internalField   uniform (10 0 0);
 
 boundaryField
 {
@@ -25,9 +25,10 @@ boundaryField
 
     inlet
     {
+        //type            fixedValue;
         type            codedFixedValue;
-	//type            fixedValue;
-        value           uniform (0 0 0);
+        value           uniform (10 0 0);
+
         redirectType    turbInlet;
 	
         codeInclude
@@ -54,10 +55,9 @@ boundaryField
 
         code
         #{
-            // Simulation startTime and deltaT
-            const scalar startTime = 0;
-            const scalar deltaT = 0.0002;
-
+	    // simulation time
+	    scalar startTime = 0;
+       	    scalar deltaT = 2e-4;
             // Current time
             scalar time = this->db().time().value();
             // Time index
@@ -146,16 +146,17 @@ boundaryField
                      (
                          u[faceI][0] + Umean[faceI],
                          v[faceI][0],
-                         w[faceI][0]
+                         w[faceI][0] * 1.5
                      );
             }
-	    // operator==(vectorField(u+Umean, v, w));
 
             dataspace.close();
             memspace.close();
             dataset.close();
             file.close();
+
         #};
+
     }
 
     outlet
@@ -164,25 +165,20 @@ boundaryField
         value           uniform (0 0 0);
     }
 
-    lowerWall
+    ground
     {
         type            fixedValue;
-        value           uniform ( 0 0 0 );
+	value           uniform (0 0 0);
     }
 
-    upperWall
+    top
     {
-        type            slip;
+        type            symmetry;
     }
 
     frontAndBack
     {
-        type            slip;
-    }
-
-    roughnessBlocksGroup
-    {
-        type            noSlip;
+        type            symmetry;
     }
 }
 

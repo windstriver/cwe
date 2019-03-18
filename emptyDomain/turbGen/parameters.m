@@ -7,7 +7,7 @@
 %% Sample test grid
 %Z = (0.05:0.001:1)';
 %GRID = [(0:length(Z)-1)' zeros(length(Z),1) zeros(length(Z),1) Z];
-GRID = csvread('/lustre/work/wan39502/emptyDomain/testCase/constant/polyMesh/writeMesh/inletPatchFaceCentres');
+GRID = csvread('../testCase/constant/meshInfo/faceCentresInlet.csv');
 
 nd = size(GRID,1);  % overall number of points
 
@@ -15,9 +15,9 @@ nd = size(GRID,1);  % overall number of points
 % h0u:    Reference height for the mean velocity
 % Uh:     Mean velocity at h0u
 % alphau: Power low exponent of the mean velocity
-h0u = 0.5;
-alphau = 0.25;
-Uh = 11.11;
+h0u = 0.364;
+alphau = 0.326;
+Uh = 10;
 
 %% Turbulent intensity
 % h0I:    Reference height for the turbulent intensity
@@ -27,13 +27,13 @@ Uh = 11.11;
 % dIu:    Power low exponent of the longitudinal turbulent intensity
 % dIv:    Power low exponent of the transverse turbulent intensity
 % dIw:    Power low exponent of the vertical turbulent intensity
-h0I = 0.5;
-Iuh = 0.116;
-Ivh = 0.087;
-Iwh = 0.058;
-dIu = 0;
-dIv = 0;
-dIw = 0;
+h0I = 0.364;
+Iuh = 0.208;
+Ivh = 0.182;
+Iwh = 0.152;
+dIu = -0.191;
+dIv = -0.123;
+dIw = -0.005;
 
 %% Turbulence length scale
 % h0L:    Reference height for the length scale
@@ -43,13 +43,13 @@ dIw = 0;
 % dLu:    Power low exponent of the longitudinal length scale
 % dLv:    Power low exponent of the transverse length scale
 % dLw:    Power low exponent of the vertical length scale
-h0L = 0.5;
-Luh = 0.8*0.5;
-Lvh = 0.8*0.5;
-Lwh = 0.8*0.5;
-dLu = 0;
-dLv = 0;
-dLw = 0;
+h0L = 0.254;
+Luh = 0.302;
+Lvh = 0.0815;
+Lwh = 0.0326;
+dLu = 0.473;
+dLv = 0.881;
+dLw = 1.539;
 
 %% Coherency decay constants
 % Cxyz:   Coherency decay constants in x, y and z directions [1 3] matrix
@@ -59,8 +59,8 @@ Cxyz = [10 10 10];
 % dt:    time step
 % nt:    number of time steps
 % Td:    total simulated time
-dt = 2e-5;
-nt = 60001;
+dt = 2e-4;
+nt = 120003;
 Td = nt * dt;
 
 %% Frequency segments

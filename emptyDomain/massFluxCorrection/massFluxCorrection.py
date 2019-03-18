@@ -15,32 +15,31 @@ outputHDF5File = '../inflowTurbMFC.h5'
 ofCase = '../testCase/'
 
 # building height
-H = 0.5
-# building width
-B = 0.2
+H = 0.364
 # computational domain height
 Z = 3.6*H
 # computational domain width
 Y = 4.4*H
 
-#############j#################################################################
+##############################################################################
 # Calculate the prescribed bulk velocity from mean wind velocity profile
 ##############################################################################
 # reference height for the mean velocity profile
-h0u = 0.5
+h0u = 0.364
 # mean velocity at the reference height
-Uh = 11.11
+Uh = 10
 # power law exponent of the mean velocity profile
-alphau = 0.25
+alphau = 0.326
 # bulk velocity
 Ub = 1/(alphau+1)*(Z/h0u)**(alphau)*Uh
-print(f'Prescribed bulk velocity by mean velocity profile is {Ub:.3f} m/s')
+print(f'Prescribed bulk velocity is {Ub:.3f} m/s')
+
 ##############################################################################
 # Calculate the instantaneous bulk velocity from synthetic velocities
 ##############################################################################
 # read the inlet patch face area vectors
 sfInlet = np.genfromtxt(ofCase+\
-                        'constant/polyMesh/writeMesh/inletPatchFaceAreaVectors',\
+                        'constant/meshInfo/faceAreaVectorsInlet.csv',\
                         delimiter=',')
 sMagInlet = np.abs(sfInlet[:, 0])
 S = np.sum(sMagInlet)
@@ -61,11 +60,6 @@ uTot = uIn[:,:] + uMeanIn[:][:,None]
 UbT = np.dot(uTot.T, sMagInlet) / S
 print('instantaneous bulk velocity:')
 print(UbT)
-
-print('Use mean of instantaneous bulk velocities as the bulk velocity: ')
-Ub = np.mean(UbT)
-print('Mean instantaneous bulk velocity is: ')
-print(Ub)
 
 ##############################################################################
 # Correct the instantaneous velocity
@@ -98,3 +92,4 @@ dset.write_direct(uMeanIn[:])
 
 h5FileIn.close()
 h5FileOut.close()
+

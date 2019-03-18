@@ -1,42 +1,17 @@
 // Experiment by Tokyo Polytechnic University
 // building height [m]
-H    0.5;
-// building breadth [m]
-B    0.2;
-// building depth [m]
-D    0.1;
+H    0.364;
 
 // Block division
 // along-wind coordinates
-X1   #calc "-$D/2";
-X2   #calc "$D/2";
-X0   #calc "$X1-5*$H";
-X3   #calc "$X2+10*$H";
+X0   #calc "-3.6*$H";
+X1   #calc "10*$H";
+
 // cross-wind coordinates
-Y1   #calc "-$B/2";
-Y2   #calc "$B/2";
-Y0   #calc "$Y1-2*$H";
-Y3   #calc "$Y2+2*$H";
+Y0   #calc "-2.2*$H";
+Y1   #calc "2.2*$H";
+
 // vertical coordinates
 Z1   #calc "$H";
-Z2   #calc "$Z1+3*$H";
+Z2   #calc "3.6*$H";
 
-// blockMesh control
-NX0   83;
-ERX0  0.0401;
-NX1   25;
-ERX1  1;
-NX2   100;
-ERX2  48.5625;
-
-NY0   62;
-ERY0  0.0914;
-NY1   50;
-ERY1  1;
-NY2   62;
-ERY2  10.9404;
-
-NZ0   125;
-ERZ0  1;
-NZ1   156;
-ERZ1  4.7500;
