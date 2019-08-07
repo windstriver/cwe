@@ -57,7 +57,7 @@ boundaryField
         #{
 	    // simulation time
 	    scalar startTime = 0;
-       	    scalar deltaT = 2e-4;
+       	    scalar deltaT = 5e-4;
             // Current time
             scalar time = this->db().time().value();
             // Time index
@@ -145,8 +145,8 @@ boundaryField
                      vector
                      (
                          u[faceI][0] + Umean[faceI],
-                         v[faceI][0],
-                         w[faceI][0] * 1.5
+                         v[faceI][0] * 1.0,
+                         w[faceI][0]
                      );
             }
 

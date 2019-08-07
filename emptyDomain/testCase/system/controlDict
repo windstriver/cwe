@@ -23,15 +23,15 @@ startTime       0;
 
 stopAt          endTime;
 
-endTime         24;
+endTime         12;
 
-deltaT          2e-04;
+deltaT          5e-04;
 
 writeControl    timeStep;
 
-writeInterval   5000;
+writeInterval   200;
 
-purgeWrite      0;
+purgeWrite      10;
 
 writeFormat     ascii;
 
@@ -82,9 +82,15 @@ functions
         );
     }
 
-    #includeFunc internalCloudU
     #includeFunc internalCloudUMean
+    #includeFunc internalCloudU
     #includeFunc boundaryCloudwallShearStressMean
 }
+
+libs
+(
+    "libOpenFOAM.so"
+    "libWallModelledLES.so"
+);
 
 // ************************************************************************* //

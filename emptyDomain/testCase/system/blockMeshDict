@@ -19,33 +19,23 @@ convertToMeters	 1.0;
 
 vertices
 (
-    ($X0 $Y0 0)    // vertex 0
-    ($X1 $Y0 0)    // vertex 1
-    ($X1 $Y1 0)    // vertex 2
-    ($X0 $Y1 0)    // vertex 3
+    (0   $Y1 $Z1)    // vertex 0
+    ($X1 $Y1 $Z1)    // vertex 1
+    ($X1 $Y1 $Z2)    // vertex 2
+    (0   $Y1 $Z2)    // vertex 3
 
-    ($X0 $Y0 $Z1)    // vertex 4
-    ($X1 $Y0 $Z1)    // vertex 5
-    ($X1 $Y1 $Z1)    // vertex 6
-    ($X0 $Y1 $Z1)    // vertex 7
-
-    ($X0 $Y0 $Z2)    // vertex 8
-    ($X1 $Y0 $Z2)    // vertex 9
-    ($X1 $Y1 $Z2)    // vertex 10
-    ($X0 $Y1 $Z2)    // vertex 11
+    (0   $Y2 $Z1)    // vertex 4
+    ($X1 $Y2 $Z1)    // vertex 5
+    ($X1 $Y2 $Z2)    // vertex 6
+    (0   $Y2 $Z2)    // vertex 7
 
 );
 
 blocks
 (
     // block 0
-    hex (0 1 2 3 4 5 6 7 8)
-    (340 110 12)
-    simpleGrading (1 1 2.853)
-
-    // block 1
-    hex (4 5 6 7 8 9 10 11)
-    (340 110 65)
+    hex (0 1 5 4 3 2 6 7)
+    (200 40 100)
     simpleGrading (1 1 1)
 
 );
@@ -61,8 +51,7 @@ boundary
         type patch;
         faces
         (
-            (0 4 7 3)
-            (4 8 11 7)
+            (0 3 7 4)
         );
     }
 
@@ -71,8 +60,7 @@ boundary
         type patch;
         faces
         (
-            (1 2 6 5)
-            (5 6 10 9)
+            (1 5 6 2)
         );
     }
 
@@ -81,7 +69,7 @@ boundary
         type wall;
         faces
         (
-            (0 3 2 1)
+            (0 1 2 3)
         );
     }
 
@@ -90,7 +78,7 @@ boundary
         type symmetry;
         faces
         (
-            (8 9 10 11)
+            (4 7 6 5)
         );
     }
 
@@ -100,10 +88,8 @@ boundary
         type symmetry;
         faces
         (
-            (0 1 5 4)
-            (4 5 9 8)
-            (2 3 7 6)
-            (6 7 11 10)
+            (2 6 7 3)
+            (0 4 5 1)
         );
     }
 

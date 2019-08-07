@@ -15,23 +15,27 @@ outputHDF5File = '../inflowTurbMFC.h5'
 ofCase = '../testCase/'
 
 # building height
-H = 0.364
+H = 0.5
 # computational domain height
-Z = 3.6*H
+Z = 10*H
 # computational domain width
-Y = 4.4*H
+Y = 4*H
+
+# delta = 1.0;
 
 ##############################################################################
 # Calculate the prescribed bulk velocity from mean wind velocity profile
 ##############################################################################
 # reference height for the mean velocity profile
-h0u = 0.364
+Href = 0.5
 # mean velocity at the reference height
-Uh = 10
+Uref = 11.1438
 # power law exponent of the mean velocity profile
-alphau = 0.326
+alphau = 1/4;
 # bulk velocity
-Ub = 1/(alphau+1)*(Z/h0u)**(alphau)*Uh
+Ub = 1/(alphau+1) * 4**(alphau) * Uref
+# y0 = 0.02/300;
+# Ub = (np.log(4*H/y0)-1)/np.log(Href/y0)*Uref
 print(f'Prescribed bulk velocity is {Ub:.3f} m/s')
 
 ##############################################################################
@@ -60,6 +64,7 @@ uTot = uIn[:,:] + uMeanIn[:][:,None]
 UbT = np.dot(uTot.T, sMagInlet) / S
 print('instantaneous bulk velocity:')
 print(UbT)
+np.savetxt('UbT.csv', UbT)
 
 ##############################################################################
 # Correct the instantaneous velocity
