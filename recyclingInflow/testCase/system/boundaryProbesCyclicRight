@@ -15,7 +15,7 @@ fields (p U);
 
 points
 (
-    #include "../constant/meshInfo/faceCentresCyclicRight"
+    #include "../constant/meshInfo/faceCentrescyclicRight"
 );
 
 maxDistance 0.1;

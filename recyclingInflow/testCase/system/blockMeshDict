@@ -60,12 +60,12 @@ edges
 
 boundary
 (
-    Inlet
+    inlet
     {
         type            mappedPatch;
         sampleRegion    region0;
         sampleMode      nearestPatchFace;
-        samplePatch     CyclicLeft;
+        samplePatch     cyclicLeft;
 
         faces
         (
@@ -73,11 +73,11 @@ boundary
         );
     }
 
-    CyclicLeft
+    cyclicLeft
     {
         type            cyclic;
         transform       translational;
-        neighbourPatch  CyclicRight;
+        neighbourPatch  cyclicRight;
         separationVector (0.5 0 0);
         faces
         (
@@ -85,7 +85,7 @@ boundary
         );
     }
 
-    GroundLeft
+    groundLeft
     {
         type            wall;
         faces
@@ -94,7 +94,7 @@ boundary
         );
     }
 
-    TopLeft
+    topLeft
     {
         type            symmetry;
         faces
@@ -103,7 +103,7 @@ boundary
         );
     }
 
-    FrontAndBackLeft
+    frontAndBackLeft
     {
         type            symmetry;
         faces
@@ -113,11 +113,11 @@ boundary
         );
     }
 
-    CyclicRight
+    cyclicRight
     {
         type            cyclic;
         transform       translational;
-        neighbourPatch  CyclicLeft;
+        neighbourPatch  cyclicLeft;
         separationVector (-0.5 0 0);
 
         faces
@@ -126,7 +126,7 @@ boundary
         );
     }
 
-    Outlet
+    outlet
     {
         type            patch;
         faces
@@ -135,7 +135,7 @@ boundary
         );
     }
 
-    GroundRight
+    groundRight
     {
         type            wall;
         faces
@@ -144,7 +144,7 @@ boundary
         );
     }
 
-    TopRight
+    topRight
     {
         type            symmetry;
         faces
@@ -154,7 +154,7 @@ boundary
     }
 
 
-    FrontAndBackRight
+    frontAndBackRight
     {
         type            symmetry;
         faces
