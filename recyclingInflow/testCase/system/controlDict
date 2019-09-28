@@ -15,9 +15,9 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-averagingTime   0.1;
+averagingTime   0.1; 
 
-application     pisoleFoam;
+application     pimpleFoam;
 
 startFrom       latestTime;
 
@@ -55,9 +55,9 @@ maxDeltaT         2.0e-3;
 
 functions
 {
-    #includeFunc        boundaryProbesInlet;
-    #includeFunc        boundaryProbesCyclicLeft;
-    #includeFunc        boundaryProbesCyclicRight;
+    //#includeFunc        boundaryProbesInlet;
+    //#includeFunc        boundaryProbesCyclicLeft;
+    //#includeFunc        boundaryProbesCyclicRight;
 }
 
 libs

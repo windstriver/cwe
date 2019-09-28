@@ -1,7 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  5                                     |
+|  \\    /   O peration     | Version:  7                                     |
 |   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
@@ -14,8 +14,6 @@ FoamFile
 }
 
 convertToMeters	 1.0;
-
-//#include "../parameters"
 
 vertices
 (
@@ -54,8 +52,6 @@ blocks
     hex (8 9 10 11 12 13 14 15)
     (3 2 2)
     simpleGrading (1 1 1)
-
-
 );
 
 edges
@@ -64,12 +60,12 @@ edges
 
 boundary
 (
-    inlet
+    Inlet
     {
         type            mappedPatch;
         sampleRegion    region0;
         sampleMode      nearestPatchFace;
-        samplePatch     cyclicLeft;
+        samplePatch     CyclicLeft;
 
         faces
         (
@@ -77,11 +73,11 @@ boundary
         );
     }
 
-    cyclicLeft
+    CyclicLeft
     {
         type            cyclic;
         transform       translational;
-        neighbourPatch  cyclicRight;
+        neighbourPatch  CyclicRight;
         separationVector (0.5 0 0);
         faces
         (
@@ -89,28 +85,27 @@ boundary
         );
     }
 
-    groundLeft
+    GroundLeft
     {
-        type wall;
+        type            wall;
         faces
         (
             (0 1 5 4)
         );
     }
 
-    topLeft
+    TopLeft
     {
-        type symmetry;
+        type            symmetry;
         faces
         (
             (2 3 7 6)
         );
     }
 
-
-    frontAndBackLeft
+    FrontAndBackLeft
     {
-        type symmetry;
+        type            symmetry;
         faces
         (
             (0 3 2 1)
@@ -118,11 +113,11 @@ boundary
         );
     }
 
-    cyclicRight
+    CyclicRight
     {
         type            cyclic;
         transform       translational;
-        neighbourPatch  cyclicLeft;
+        neighbourPatch  CyclicLeft;
         separationVector (-0.5 0 0);
 
         faces
@@ -131,27 +126,27 @@ boundary
         );
     }
 
-    outlet
+    Outlet
     {
-        type patch;
+        type            patch;
         faces
         (
             (9 10 14 13)
         );
     }
 
-    groundRight
+    GroundRight
     {
-        type wall;
+        type            wall;
         faces
         (
             (8 9 13 12)
         );
     }
 
-    topRight
+    TopRight
     {
-        type symmetry;
+        type            symmetry;
         faces
         (
             (10 11 15 14)
@@ -159,9 +154,9 @@ boundary
     }
 
 
-    frontAndBackRight
+    FrontAndBackRight
     {
-        type symmetry;
+        type            symmetry;
         faces
         (
             (8 11 10 9)
