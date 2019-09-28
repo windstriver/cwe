@@ -1,0 +1,176 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  5                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version	 2.0;
+    format	 ascii;
+    class	 dictionary;
+    object	 blockMeshDict;
+}
+
+convertToMeters	 1.0;
+
+//#include "../parameters"
+
+vertices
+(
+    // block 0  
+    (0 0 0)    // vertex 0
+    (6 0 0)    // vertex 1
+    (6 1 0)    // vertex 2
+    (0 1 0)    // vertex 3
+
+    (0 0 1)    // vertex 4
+    (6 0 1)    // vertex 5
+    (6 1 1)    // vertex 6
+    (0 1 1)    // vertex 7
+
+    // block 1  
+    (6.5 0 0)    // vertex 8
+    (9.5 0 0)    // vertex 9
+    (9.5 1 0)    // vertex 10
+    (6.5 1 0)    // vertex 11
+
+    (6.5 0 1)    // vertex 12
+    (9.5 0 1)    // vertex 13
+    (9.5 1 1)    // vertex 14
+    (6.5 1 1)    // vertex 15
+
+);
+
+blocks
+(
+    // block 0
+    hex (0 1 2 3 4 5 6 7)
+    (6 2 2)
+    simpleGrading (1 1 1)
+
+    // block 0
+    hex (8 9 10 11 12 13 14 15)
+    (3 2 2)
+    simpleGrading (1 1 1)
+
+
+);
+
+edges
+(
+);
+
+boundary
+(
+    inlet
+    {
+        type            mappedPatch;
+        sampleRegion    region0;
+        sampleMode      nearestPatchFace;
+        samplePatch     cyclicLeft;
+
+        faces
+        (
+            (0 3 7 4)
+        );
+    }
+
+    cyclicLeft
+    {
+        type            cyclic;
+        transform       translational;
+        neighbourPatch  cyclicRight;
+        separationVector (0.5 0 0);
+        faces
+        (
+            (1 2 6 5)
+        );
+    }
+
+    groundLeft
+    {
+        type wall;
+        faces
+        (
+            (0 1 5 4)
+        );
+    }
+
+    topLeft
+    {
+        type symmetry;
+        faces
+        (
+            (2 3 7 6)
+        );
+    }
+
+
+    frontAndBackLeft
+    {
+        type symmetry;
+        faces
+        (
+            (0 3 2 1)
+            (4 5 6 7)
+        );
+    }
+
+    cyclicRight
+    {
+        type            cyclic;
+        transform       translational;
+        neighbourPatch  cyclicLeft;
+        separationVector (-0.5 0 0);
+
+        faces
+        (
+            (8 11 15 12)
+        );
+    }
+
+    outlet
+    {
+        type patch;
+        faces
+        (
+            (9 10 14 13)
+        );
+    }
+
+    groundRight
+    {
+        type wall;
+        faces
+        (
+            (8 9 13 12)
+        );
+    }
+
+    topRight
+    {
+        type symmetry;
+        faces
+        (
+            (10 11 15 14)
+        );
+    }
+
+
+    frontAndBackRight
+    {
+        type symmetry;
+        faces
+        (
+            (8 11 10 9)
+            (12 13 14 15)
+        );
+    }
+
+);
+
+mergPatchPairs
+(
+);
