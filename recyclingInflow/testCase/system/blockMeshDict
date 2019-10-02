@@ -13,44 +13,50 @@ FoamFile
     object	 blockMeshDict;
 }
 
-convertToMeters	 1.0;
+convertToMeters	 1;
+
+x_recy 0.225;
+x_cycl 0.22501;
+x_out  0.30001;
+
+y_top  0.09;
+z_max  0.05;
 
 vertices
 (
     // block 0  
     (0 0 0)    // vertex 0
-    (6 0 0)    // vertex 1
-    (6 1 0)    // vertex 2
-    (0 1 0)    // vertex 3
+    ($x_recy 0 0)    // vertex 1
+    ($x_recy $y_top 0)    // vertex 2
+    (0 $y_top 0)    // vertex 3
 
-    (0 0 1)    // vertex 4
-    (6 0 1)    // vertex 5
-    (6 1 1)    // vertex 6
-    (0 1 1)    // vertex 7
+    (0 0 $z_max)    // vertex 4
+    ($x_recy 0 $z_max)    // vertex 5
+    ($x_recy $y_top $z_max)    // vertex 6
+    (0 $y_top $z_max)    // vertex 7
 
     // block 1  
-    (6.5 0 0)    // vertex 8
-    (9.5 0 0)    // vertex 9
-    (9.5 1 0)    // vertex 10
-    (6.5 1 0)    // vertex 11
+    ($x_cycl 0 0)    // vertex 8
+    ($x_out  0 0)    // vertex 9
+    ($x_out  $y_top 0)    // vertex 10
+    ($x_cycl $y_top 0)    // vertex 11
 
-    (6.5 0 1)    // vertex 12
-    (9.5 0 1)    // vertex 13
-    (9.5 1 1)    // vertex 14
-    (6.5 1 1)    // vertex 15
-
+    ($x_cycl 0 $z_max)    // vertex 12
+    ($x_out  0 $z_max)    // vertex 13
+    ($x_out  $y_top $z_max)    // vertex 14
+    ($x_cycl $y_top $z_max)    // vertex 15
 );
 
 blocks
 (
     // block 0
     hex (0 1 2 3 4 5 6 7)
-    (6 2 2)
+    (96 64 64)
     simpleGrading (1 1 1)
 
     // block 0
     hex (8 9 10 11 12 13 14 15)
-    (3 2 2)
+    (32 64 64)
     simpleGrading (1 1 1)
 );
 
@@ -78,7 +84,7 @@ boundary
         type            cyclic;
         transform       translational;
         neighbourPatch  cyclicRight;
-        separationVector (0.5 0 0);
+        separationVector (1e-5 0 0);
         faces
         (
             (1 2 6 5)
@@ -118,7 +124,7 @@ boundary
         type            cyclic;
         transform       translational;
         neighbourPatch  cyclicLeft;
-        separationVector (-0.5 0 0);
+        separationVector (-1e-5 0 0);
 
         faces
         (

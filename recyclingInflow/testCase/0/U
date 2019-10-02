@@ -1,0 +1,86 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  7                                  |
+|   \\  /    A nd           | Web:      http://www.OpenFOAM.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   #include "Uinit";
+
+boundaryField
+{
+    //- Set patchGroups for constraint patches
+    #includeEtc "caseDicts/setConstraintTypes"
+
+    inlet
+    {
+        type            scaledMappedVelocity;
+        value           uniform (0 0 0);
+        deltaInlet      0.02835;
+        thetaInlet      0.002667;
+        Ue              6.355;
+        nu              1.4612e-5;
+        t               1e-3;
+        UMeanSpanTime   uniform (0 0 0);
+    }
+
+    cyclicLeft
+    {
+        type            cyclic;
+    }
+
+    groundLeft
+    {
+        type            noSlip;
+    }
+
+    topLeft
+    {
+        type            symmetry;
+    }
+
+    frontAndBackLeft
+    {
+        type            symmetry;
+    }
+
+    cyclicRight
+    {
+        type            cyclic;
+    }
+
+    outlet
+    {
+        type            pressureInletOutletVelocity;
+        value           uniform (0 0 0);
+    }
+
+    groundRight
+    {
+        type            noSlip;
+    }
+
+    topRight
+    {
+        type            symmetry;
+    }
+
+    frontAndBackRight
+    {
+        type            symmetry;
+    }
+
+}
+
+// ************************************************************************* //

@@ -1,28 +1,3 @@
-/*---------------------------------------------------------------------------*\
-  =========                 |
-  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
-   \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011 OpenFOAM Foundation
-     \\/     M anipulation  |
--------------------------------------------------------------------------------
-License
-    This file is part of OpenFOAM.
-
-    OpenFOAM is free software: you can redistribute it and/or modify it
-    under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
-    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-    for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
-
-\*---------------------------------------------------------------------------*/
-
 #include "scaledMappedVelocityFixedValueFvPatchField.H"
 #include "fvPatchFieldMapper.H"
 #include "mappedPatchBase.H"
@@ -41,11 +16,11 @@ scaledMappedVelocityFixedValueFvPatchField
 )
 :
     fixedValueFvPatchVectorField(p, iF),
-    deltaInlet_(0.1),
-    thetaInlet_(0.01),
-    nu_(2e-5),
-    Ue_(1.0),
-    t_(1e-2),
+    deltaInlet_(0.02835),
+    thetaInlet_(0.002667),
+    nu_(1.4612e-5),
+    Ue_(6.355),
+    t_(1e-3),
     UMeanSpanTime_(patch().size(), vector::zero)
 {}
 
@@ -201,34 +176,27 @@ void Foam::scaledMappedVelocityFixedValueFvPatchField::updateCoeffs()
     const label nbrPatchID = nbrMesh.boundaryMesh().findPatchID(mpp.samplePatch());
 
     vectorField URecycled = UField.boundaryField()[nbrPatchID];
-    Info<< "samplePatch: " << mpp.samplePatch() << endl;
-    Info<< URecycled << endl;
+    //Info<< "samplePatch: " << mpp.samplePatch() << endl;
+    //Info<< URecycled << endl;
 
-/*
-    // Since we're inside initEvaluate/evaluate there might be processor
-    // comms underway. Change the tag we use.
-    int oldTag = UPstream::msgType();
-    UPstream::msgType() = oldTag+1;
-
-    mpp.distribute(URecycled);
-    // Get the number of cells in the direction normal to the wall and the coordinate (random order)
+    // Get the number of cells in the wall-normal direction and the coordinate (random order)
     label Nnorm = 0;
     scalar newVal = 1.0;
     scalarField coord(patch().size(), 0);
     forAll(patch(), patchI)
     {
-	newVal = 1.0;
-	forAll(patch(), patchII)
-	{
-	    if ( Nnorm == 0 ) { break; }
-	    if ( mag(patch().Cf()[patchI].component(1) - coord[patchII]) < 10e-9 )
-	    {
-		newVal = 0;
-		break;
-	    }
-	    if ( patchII == Nnorm - 1 ) { break; }
-	}
-	if ( newVal == 1.0 ) { coord[Nnorm] = patch().Cf()[patchI].component(1); Nnorm++; }
+        newVal = 1.0;
+        forAll(patch(), patchII)
+        {
+            if ( Nnorm == 0 ) { break; }
+            if ( mag(patch().Cf()[patchI].component(1) - coord[patchII]) < 10e-9 )
+            {
+                newVal = 0;
+                break;
+            }
+            if ( patchII == Nnorm - 1 ) { break; }
+        }
+        if ( newVal == 1.0 ) { coord[Nnorm] = patch().Cf()[patchI].component(1); Nnorm++; }
     }
 
     // Get the number of cells in the spanwise direction and the coordinate (random order)
@@ -236,121 +204,129 @@ void Foam::scaledMappedVelocityFixedValueFvPatchField::updateCoeffs()
     scalarField coord2(patch().size(), 0);
     forAll(patch(), patchI)
     {
-	newVal = 1.0;
-	forAll(patch(), patchII)
-	{
-	    if ( Nspan == 0 ) { break; }
-	    if ( mag(patch().Cf()[patchI].component(2) - coord2[patchII]) < 10e-9 )
-	    {
-		newVal = 0;
-		break;
-	    }
-	    if ( patchII == Nspan - 1 ) { break; }
-	}
-	if ( newVal == 1.0 ) { coord2[Nspan] = patch().Cf()[patchI].component(2); Nspan++; }
+        newVal = 1.0;
+        forAll(patch(), patchII)
+        {
+            if ( Nspan == 0 ) { break; }
+            if ( mag(patch().Cf()[patchI].component(2) - coord2[patchII]) < 10e-9 )
+            {
+               newVal = 0;
+               break;
+            }
+            if ( patchII == Nspan - 1 ) { break; }
+        }
+        if ( newVal == 1.0 ) { coord2[Nspan] = patch().Cf()[patchI].component(2); Nspan++; }
     }
 
     // Sort the normal coordinates from lowest to highest
     scalarField normCoord(Nnorm, 10e9);
     forAll(patch(), patchI)
     {
-	forAll(patch(), patchII)
-	{
-	    if ( coord[patchI] < normCoord[patchII] )    
-	    {
-		forAll(patch(), patchIII)
-		{
-		    normCoord[Nnorm - 1 - patchIII] = normCoord[Nnorm - 2 - patchIII];
-		    if (Nnorm - 1 - patchIII == patchII) { break; }
-		}
-		normCoord[patchII] = coord[patchI];
-		break;
-	    }
-	}
-	if (patchI == Nnorm - 1) { break; }
+        forAll(patch(), patchII)
+        {
+            if ( coord[patchI] < normCoord[patchII] )    
+            {
+                forAll(patch(), patchIII)
+                {
+                    normCoord[Nnorm - 1 - patchIII] = normCoord[Nnorm - 2 - patchIII];
+                    if (Nnorm - 1 - patchIII == patchII) { break; }
+                }
+                normCoord[patchII] = coord[patchI];
+                break;
+            }
+        }
+        if (patchI == Nnorm - 1) { break; }
     }
 
     // Sort the spanwise coordinates from lowest to highest
     scalarField spanCoord(Nspan, 10e9);
     forAll(patch(), patchI)
     {
-	forAll(patch(), patchII)
-	{
-	    if ( coord2[patchI] < spanCoord[patchII] )    
-	    {
-		forAll(patch(), patchIII)
-		{
-		    spanCoord[Nspan - 1 - patchIII] = spanCoord[Nspan - 2 - patchIII];
-		    if (Nspan - 1 - patchIII == patchII) { break; }
-		}
-		spanCoord[patchII] = coord2[patchI];
-		break;
-	    }
-	}
-	if (patchI == Nspan - 1) { break; }
+        forAll(patch(), patchII)
+        {
+            if ( coord2[patchI] < spanCoord[patchII] )    
+            {
+                forAll(patch(), patchIII)
+                {
+                    spanCoord[Nspan - 1 - patchIII] = spanCoord[Nspan - 2 - patchIII];
+                    if (Nspan - 1 - patchIII == patchII) { break; }
+                }
+                spanCoord[patchII] = coord2[patchI];
+                break;
+            }
+        }
+        if (patchI == Nspan - 1) { break; }
     }
 
     // Get the normal label position
     labelField normLab(patch().size(), 0);
     forAll(patch(), patchI)
     {
-	forAll(patch(), patchII)
-	{
-	    if ( mag(patch().Cf()[patchI].component(1) - normCoord[patchII]) < 1e-9 )
-	    {
-		normLab[patchI] = patchII;
-		break;
-	    }
-	}
+        forAll(patch(), patchII)
+        {
+            if ( mag(patch().Cf()[patchI].component(1) - normCoord[patchII]) < 1e-9 )
+            {
+                normLab[patchI] = patchII;
+                break;
+            }
+        }
     }
 
     // Get the spanwise label position
     labelField spanLab(patch().size(), 0);
     forAll(patch(), patchI)
     {
-	forAll(patch(), patchII)
-	{
-	    if ( mag(patch().Cf()[patchI].component(2) - spanCoord[patchII]) < 1e-9 )
-	    {
-		spanLab[patchI] = patchII;
-		break;
-	    }
-	}
+        forAll(patch(), patchII)
+        {
+            if ( mag(patch().Cf()[patchI].component(2) - spanCoord[patchII]) < 1e-9 )
+            {
+                spanLab[patchI] = patchII;
+                break;
+            }
+        }
     }
 
     // average the instantaneous velocity in the recycle plane in the spanwise direction
     vectorField UMeanSpan(Nnorm, vector::zero);
     forAll(patch(), patchI)
     {
-    	UMeanSpan[normLab[patchI]] += URecycled[patchI];
+        UMeanSpan[normLab[patchI]] += URecycled[patchI];
     }
     UMeanSpan /= Nspan;
 
     // Read the time step and averaging time in controlDict
-    IOdictionary controlDict
-    (
-        IOobject
-        (
-            "controlDict",
-            this->db().time().system(),
-            this->db(),
-            IOobject::MUST_READ,
-            IOobject::NO_WRITE,
-            false
-        )
-    );
+    const dictionary& controlDict = this->db().time().controlDict();
     scalar deltaT_(readScalar(controlDict.lookup("deltaT")));
     scalar T_(readScalar(controlDict.lookup("averagingTime")));
 
     // average the spanwise averaged velocity field in time
     // NB: many solvers call this function several times per time step. Hence, t_ is different to the actual simulation time!
+    /*
     forAll(patch(), patchI)
     {
-        UMeanSpanTime_[patchI] = (1 - (deltaT_/t_))*UMeanSpanTime_[patchI]  + (deltaT_/t_)*UMeanSpan[normLab[patchI]];
+        if (t_/deltaT_<=1.0) {UMeanSpanTime_[patchI] = UMeanSpan[normLab[patchI]];} 
+        else
+        {
+            UMeanSpanTime_[patchI] = (1 - (deltaT_/t_))*UMeanSpanTime_[patchI]  + (deltaT_/t_)*UMeanSpan[normLab[patchI]];
+        }
     }
     t_ = t_ + deltaT_; // The averaging time increases progressively to remove the initial transient solution
-    if(t_ > T_){t_ = T_;}
+    Info<< "Averaging time: " << t_ << endl;
+    */
 
+    // average the spanwise averaged velocity field in time
+    t_ = this->db().time().value();
+    if (t_ > T_) { t_ = T_;}
+    forAll(patch(), patchI)
+    {
+        if (t_/deltaT_<=1.0) {UMeanSpanTime_[patchI] = UMeanSpan[normLab[patchI]];} 
+        else
+        {
+            UMeanSpanTime_[patchI] = (1 - (deltaT_/t_))*UMeanSpanTime_[patchI]  + (deltaT_/t_)*UMeanSpan[normLab[patchI]];
+        }
+    }
+
+    // average the spanwise averaged velocity field in time
     // Reynolds decomposition of the velocity field
     vectorField UPrime(patch().size(), vector::zero);
     forAll(patch(), patchI)
@@ -358,7 +334,7 @@ void Foam::scaledMappedVelocityFixedValueFvPatchField::updateCoeffs()
         UPrime[patchI] = URecycled[patchI] - UMeanSpanTime_[patchI];
     }
 
-    // Decompose the velocity vector - x is the flow direction in this case
+    // Decompose the velocity vector (x_ is the flow direction in this case)
     vector x_(1,0,0);
     scalarField UxMeanSpanTime = (UMeanSpanTime_ & x_);
     vectorField UyzMeanSpanTime = UMeanSpanTime_ - (UxMeanSpanTime*x_);
@@ -367,49 +343,44 @@ void Foam::scaledMappedVelocityFixedValueFvPatchField::updateCoeffs()
     scalarField UxMeanSpanTime_(Nnorm, 0);
     forAll(patch(), patchI)
     {
-	UxMeanSpanTime_[normLab[patchI]] = UxMeanSpanTime[patchI];
+        UxMeanSpanTime_[normLab[patchI]] = UxMeanSpanTime[patchI];
     }
+    //Info << UxMeanSpanTime_ << endl;
 
     // calculation of the friction velocity at the recycled plane
     scalar UTauRecycle = 0;
-    forAll(patch(), patchI)
-    {
-	UTauRecycle = sqrt(nu_*UxMeanSpanTime_[patchI]/normCoord[patchI]);
-	break;
-    }
-    if (UTauRecycle <= 0.3) {UTauRecycle = 0.3;}
+    UTauRecycle = sqrt(nu_*UxMeanSpanTime_[0]/normCoord[0]);
 
     // get the boundary layer thickness at the recycled plane
     scalar deltaRecycle = 0;
-    forAll(patch(), patchI)
+    forAll(UxMeanSpanTime_, patchI)
     {
-	if (UxMeanSpanTime_[patchI] > 0.99*Ue_)
-	{
-	    deltaRecycle = (normCoord[patchI] - normCoord[patchI-1])/(UxMeanSpanTime_[patchI]-UxMeanSpanTime_[patchI-1])
-					*(0.99*Ue_ - UxMeanSpanTime_[patchI-1]) + normCoord[patchI-1];
-	    break;
-	}
+        if (UxMeanSpanTime_[patchI] > 0.99*Ue_)
+        {
+            deltaRecycle = (normCoord[patchI] - normCoord[patchI-1])/(UxMeanSpanTime_[patchI]-UxMeanSpanTime_[patchI-1])
+                *(0.99*Ue_ - UxMeanSpanTime_[patchI-1]) + normCoord[patchI-1];
+            break;
+        }
     }
-    if (deltaRecycle <= deltaInlet_) {deltaRecycle = deltaInlet_;}
-
+    //if (deltaRecycle<deltaInlet_) {deltaRecycle=1.1*deltaInlet_;}
+ 
     // trapezoidal integration for momentum thickness
     scalar thetaRecycle = 0;
     forAll(patch(), patchI)
     {
-	if (patchI == 0)
-	{
-	    thetaRecycle = 0.5*(UxMeanSpanTime_[patchI]/Ue_)*(1.0 - 0.5*(UxMeanSpanTime_[patchI]/Ue_))*(normCoord[patchI]);
-	}
-	else if (patchI < Nnorm)
-	{
-	    thetaRecycle += 0.5*((UxMeanSpanTime_[patchI] + UxMeanSpanTime_[patchI-1])/Ue_)
-		*(1.0 - 0.5*((UxMeanSpanTime_[patchI] + UxMeanSpanTime_[patchI-1])/Ue_))*(normCoord[patchI] - normCoord[patchI-1]);
+        if (patchI == 0)
+        {
+            thetaRecycle = 0.5*(UxMeanSpanTime_[patchI]/Ue_)*(1.0 - 0.5*(UxMeanSpanTime_[patchI]/Ue_))*(normCoord[patchI]);
         }
-	else { break; }
+        else if (patchI < Nnorm)
+        {
+            thetaRecycle += 0.5*((UxMeanSpanTime_[patchI] + UxMeanSpanTime_[patchI-1])/Ue_)
+                *(1.0 - 0.5*((UxMeanSpanTime_[patchI] + UxMeanSpanTime_[patchI-1])/Ue_))*(normCoord[patchI] - normCoord[patchI-1]);
+        }
+        else { break; }
     }
 
-    if (thetaRecycle <= deltaInlet_) {thetaRecycle = thetaInlet_;}
-
+    // Info << "UxMeanSpanTime_ " << UxMeanSpanTime_ << endl;
     // power law rule relation for inlet friction velocity
     scalar UTauInlet_ = UTauRecycle*pow((thetaRecycle/thetaInlet_), 0.125); // inlet friction velocity
     Info << "deltaRecycle = " << deltaRecycle << "\t deltaInlet = " << deltaInlet_  << endl;
@@ -488,25 +459,25 @@ void Foam::scaledMappedVelocityFixedValueFvPatchField::updateCoeffs()
     labelField highOuterLab(patch().size(), 0);
     forAll(patch(), patchI)
     {
-	forAll(patch(), patchII)
-	{
-	    if ( spanLab[patchI] == spanLab[patchII] && normLab[patchII] == yLowInner[normLab[patchI]] )
-	    {
-		lowInnerLab[patchI] = patchII;
-	    }
-	    if ( spanLab[patchI] == spanLab[patchII] && normLab[patchII] == yHighInner[normLab[patchI]] )
-	    {
-		highInnerLab[patchI] = patchII;
-	    }
-	    if ( spanLab[patchI] == spanLab[patchII] && normLab[patchII] == yLowOuter[normLab[patchI]] )
-	    {
-		lowOuterLab[patchI] = patchII;
-	    }
-	    if ( spanLab[patchI] == spanLab[patchII] && normLab[patchII] == yHighOuter[normLab[patchI]] )
-	    {
-		highOuterLab[patchI] = patchII;
-	    }
-	}
+        forAll(patch(), patchII)
+        {
+            if ( spanLab[patchI] == spanLab[patchII] && normLab[patchII] == yLowInner[normLab[patchI]] )
+            {
+                lowInnerLab[patchI] = patchII;
+            }
+            if ( spanLab[patchI] == spanLab[patchII] && normLab[patchII] == yHighInner[normLab[patchI]] )
+            {
+                highInnerLab[patchI] = patchII;
+            }
+            if ( spanLab[patchI] == spanLab[patchII] && normLab[patchII] == yLowOuter[normLab[patchI]] )
+            {
+                lowOuterLab[patchI] = patchII;
+            }
+            if ( spanLab[patchI] == spanLab[patchII] && normLab[patchII] == yHighOuter[normLab[patchI]] )
+            {
+                highOuterLab[patchI] = patchII;
+            }
+        }
     }
 
     // Interpolate velocity components
@@ -539,7 +510,7 @@ void Foam::scaledMappedVelocityFixedValueFvPatchField::updateCoeffs()
     scalarField etaInlet(patch().size(), 0);
     forAll(patch(), patchI)
     {
-	etaInlet[patchI] = patch().Cf()[patchI].component(1)/deltaInlet_;
+        etaInlet[patchI] = patch().Cf()[patchI].component(1)/deltaInlet_;
     }
     scalarField W = 0.5*(1.0+tanh(4.0*(etaInlet-0.2)/((1.0-2*0.2)*etaInlet+0.2))/tanh(4.0)); // Blending function
 
@@ -574,7 +545,7 @@ void Foam::scaledMappedVelocityFixedValueFvPatchField::updateCoeffs()
     scalarField UxMean_(Nnorm, 0);
     forAll(patch(), patchI)
     {
-	UxMean_[normLab[patchI]] = UxMean[patchI];
+        UxMean_[normLab[patchI]] = UxMean[patchI];
     }
 
     // trapezoidal integration for inlet momentum thickness
@@ -589,15 +560,26 @@ void Foam::scaledMappedVelocityFixedValueFvPatchField::updateCoeffs()
             thetaInlet_ += 0.5*((UxMean_[patchI] + UxMean_[patchI-1])/Ue_)
                 *(1.0 - 0.5*((UxMean_[patchI] + UxMean_[patchI-1])/Ue_))*(normCoord[patchI] - normCoord[patchI-1]);
         }
-	else { break; }
+        else { break; }
     }
-*/
+
+
     operator==(URecycled);
+
+    fixedValueFvPatchVectorField::updateCoeffs();
+
+/*
+    // Since we're inside initEvaluate/evaluate there might be processor
+    // comms underway. Change the tag we use.
+    int oldTag = UPstream::msgType();
+    UPstream::msgType() = oldTag+1;
+
+    mpp.distribute(URecycled);
 
     // Restore tag
     // UPstream::msgType() = oldTag;
+*/
 
-    fixedValueFvPatchVectorField::updateCoeffs();
 }
 
 

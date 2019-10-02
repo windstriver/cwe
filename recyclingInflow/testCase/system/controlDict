@@ -15,23 +15,23 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-averagingTime   0.1; 
+averagingTime   0.05; 
 
 application     pimpleFoam;
 
-startFrom       latestTime;
+startFrom       startTime;
 
 startTime       0;
 
 stopAt          endTime;
 
-endTime         10;
+endTime         1;
 
-deltaT          0.1;
+deltaT          2e-4;
 
 writeControl    timeStep;
 
-writeInterval   1;
+writeInterval   500;
 
 purgeWrite      10;
 
@@ -55,9 +55,10 @@ maxDeltaT         2.0e-3;
 
 functions
 {
-    //#includeFunc        boundaryProbesInlet;
-    //#includeFunc        boundaryProbesCyclicLeft;
-    //#includeFunc        boundaryProbesCyclicRight;
+    #includeFunc        boundaryProbesInlet;
+    #includeFunc        boundaryProbesCyclicLeft;
+    #includeFunc        boundaryProbesCyclicRight;
+    #includeFunc        internalProbes;
 }
 
 libs

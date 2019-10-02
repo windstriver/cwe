@@ -1,0 +1,110 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.6                                   |
+|   \\  /    A nd           | Web:      http://www.OpenFOAM.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      nut;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -1 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+
+    cyclicLeft
+    {
+        type            cyclic;
+    }
+
+    groundLeft
+    {
+        type            zeroGradient;
+        /*
+        type            LOTWWallModel;
+        value           uniform 0;
+
+        RootFinder
+        {
+            type        Newton;
+            eps         0.001;
+            maxIter     100;
+        }
+
+        Law
+        {
+            type        Spalding;
+            kappa       0.4;
+            B           5.5;
+        }
+        */
+    }
+
+    topLeft
+    {
+        type            symmetry;
+    }
+
+    frontAndBackLeft
+    {
+        type            symmetry;
+    }
+
+    cyclicRight 
+    {
+        type            cyclic;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    groundRight
+    {
+        type            zeroGradient;
+        /*
+        type            LOTWWallModel;
+        value           uniform 0;
+
+        RootFinder
+        {
+            type        Newton;
+            eps         0.001;
+            maxIter     100;
+        }
+
+        Law
+        {
+            type        Spalding;
+            kappa       0.4;
+            B           5.5;
+        }
+        */
+    }
+
+    topRight
+    {
+        type            symmetry;
+    }
+
+    frontAndBackRight
+    {
+        type            symmetry;
+    }
+}
+
+// ************************************************************************* //
