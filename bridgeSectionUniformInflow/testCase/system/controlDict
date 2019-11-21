@@ -29,7 +29,7 @@ deltaT          1e-02;
 
 writeControl    timeStep;
 
-writeInterval   100;
+writeInterval   10;
 
 purgeWrite      10;
 
@@ -43,7 +43,7 @@ timeFormat      general;
 
 timePrecision   6;
 
-runTimeModifiable true;
+runTimeModifiable false;
 
 functions
 {
@@ -61,9 +61,12 @@ functions
 
         probeLocations
         (
+            (-5.024 0.84 0)
+            (-3.768 0.84 0)
+            (-2.512 0.84 0)
+            (-1.256 0.84 0)
             (0 0.84 0)
         );
-
     }
 
     fieldAverage1

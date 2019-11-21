@@ -32,9 +32,9 @@ backgroundMesh
     zMin    #calc   "-0.5*$:bridgeSection.L";
     zMax    #calc   "0.5*$:bridgeSection.L";
 
-    xCells  40;
-    yCells  48;
-    zCells  1;
+    xCells  150;
+    yCells  20;
+    zCells  24;
 }
 
 vertices
