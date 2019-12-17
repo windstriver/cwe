@@ -1,0 +1,16 @@
+How to run me:
+
+
+
+blockMesh
+
+checkMesh
+
+interFoam 
+
+paraFoam 
+
+
+
+
+

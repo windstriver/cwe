@@ -1,0 +1,20 @@
+set terminal qt
+#set term postscript color
+#set output "T_sampling.ps"
+
+set xrange [ -2 : 2 ]
+
+set yrange [ 0 : 1.6 ]
+rho 	= 1.0
+gamma 	= 0.1
+u 	= 2.5
+l 	= 1
+bl	= 0
+b0	= 1
+
+plot [0:1][] (exp(rho*u*x/gamma)-1)/(exp(rho*u*l/gamma)-1)*(bl-b0)+b0 lc rgb 'red' title "Analytical solution", \
+	'./postProcessing/sampleDict/10/T_sampling_T.xy' with lines lc rgb 'green' title "Numerical solution"
+
+pause -1
+
+#    EOF

@@ -1,3 +1,0 @@
-writeMesh.C
-
-EXE = ../bin/writeMesh

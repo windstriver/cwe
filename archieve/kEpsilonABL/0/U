@@ -1,0 +1,58 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  dev                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    Inlet
+    {
+        type            atmBoundaryLayerInletVelocity;
+        flowDir         (1 0 0);
+        zDir            (0 0 1);
+        Uref            10.0;
+        Zref            6.0;
+        z0              uniform 0.01;
+        zGround         uniform 0.0;
+        value           uniform (0 0 0);
+    }
+
+    Outlet
+    {
+        type            inletOutlet;
+        inletValue      uniform (0 0 0);
+    }
+
+    Ground
+    {
+        type            noSlip;
+    }
+
+    Top
+    {
+    //    type            fixedShearStress;
+    //    tau             (0.503 0 0);
+    //    value           uniform (0.503 0 0);
+        type            fixedValue;
+        value      uniform (17.33 0 0);
+    }
+
+    #includeEtc "caseDicts/setConstraintTypes"
+}
+
+// ************************************************************************* //

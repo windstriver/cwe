@@ -1,0 +1,26 @@
+How to run me:
+
+
+
+foamCleanTutorials
+
+cp 0/T_org 0/T
+
+blockMesh
+
+scratchFoam
+
+#postProcess -func PecletNo
+
+postProcess -func sampleDict -latestTime
+
+gnuplot ./gnuplot/gnuplot_script
+
+paraFoam
+
+
+
+
+
+To view the ps files use:
+display T_sampling.ps  or  evince T_sampling.ps  or whatever you use for viewing .ps files
