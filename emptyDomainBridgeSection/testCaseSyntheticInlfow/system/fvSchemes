@@ -9,40 +9,44 @@ FoamFile
 {
     version     2.0;
     format      ascii;
-    class       volVectorField;
-    object      U;
+    class       dictionary;
+    location    "system";
+    object      fvSchemes;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-dimensions      [0 1 -1 0 0 0 0];
-
-internalField   uniform (0 0 0);
-
-boundaryField
+ddtSchemes
 {
-    inlet
-    {
-        type            turbulentInlet;
-        referenceField  uniform (7.5 0 0);
-        fluctuationScale (0.0951 0.0748 0.0814);
-        value           uniform (7.5 0 0);
-    }
-
-    outlet
-    {
-        type            pressureInletOutletVelocity;
-        value           uniform (0 0 0);
-    }
-
-    upperAndLowerWall
-    {
-        type            slip;
-    }
-
-    frontAndBack
-    {
-        type            symmetry;
-    }
+    default         backward;
 }
+
+gradSchemes
+{
+    default         Gauss linear;
+}
+
+divSchemes
+{
+    default         none;
+    div(phi,U)      Gauss LUST grad(U);
+    div(phi,k)      Gauss limitedLinear 1;
+    div((nuEff*dev2(T(grad(U))))) Gauss linear;
+}
+
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default         linear;
+}
+
+snGradSchemes
+{
+    default         corrected;
+}
+
 
 // ************************************************************************* //

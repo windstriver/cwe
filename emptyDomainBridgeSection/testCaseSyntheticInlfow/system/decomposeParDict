@@ -9,36 +9,33 @@ FoamFile
 {
     version     2.0;
     format      ascii;
-    class       volScalarField;
-    object      nut;
+    class       dictionary;
+    object      decomposeParDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-dimensions      [0 2 -1 0 0 0 0];
+numberOfSubdomains  18;
 
-internalField   uniform 0;
+/*
+    Main methods are:
+    1) Geometric: "simple"; "hierarchical", with ordered sorting, e.g. xyz, yxz
+    2) Scotch: "scotch", when running in serial; "ptscotch", running in parallel
+*/
 
-boundaryField
+method              hierarchical;
+
+simpleCoeffs
 {
-    inlet
-    {
-        type            zeroGradient;
-    }
-
-    outlet
-    {
-        type            zeroGradient;
-    }
-
-    upperAndLowerWall
-    {
-        type            zeroGradient;
-    }
-
-    frontAndBack
-    {
-        type            symmetry;
-    }
+    n               (4 2 1); // total must match numberOfSubdomains
+    delta           0.001;
 }
+
+hierarchicalCoeffs
+{
+    n               (18 1 1); // total must match numberOfSubdomains
+    delta           0.001;
+    order           xyz;
+}
+
 
 // ************************************************************************* //
