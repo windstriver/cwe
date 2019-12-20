@@ -9,7 +9,7 @@
 #$ -pe mpi 36
 #$ -P quanah
 
-JOBDIR='/lustre/work/wan39502/bridgeSectionUniformInflow'
+JOBDIR='/home/wan39502/bridgeSectionUniformInflow'
 CASE='testCase'
 
 # Source tutorial run functions

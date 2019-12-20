@@ -44,8 +44,8 @@ SourceFiles
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef scaledMappedVelocityFixedValueFvPatchField_H
-#define scaledMappedVelocityFixedValueFvPatchField_H
+#ifndef scaledMappedVelocityFixedValueFvPatchFieldParallel_H
+#define scaledMappedVelocityFixedValueFvPatchFieldParallel_H
 
 #include "fixedValueFvPatchFields.H"
 #include "mappedFvPatch.H"
@@ -64,12 +64,12 @@ class scaledMappedVelocityFixedValueFvPatchField
     public fixedValueFvPatchVectorField
 {
     // Private data
-        scalar deltaInlet_; // boundary layer displacement thickness at the inlet
-        scalar thetaInlet_; // boundary layer momentumt thickness at the inlet
-        scalar nu_;         // kinematic viscosity
-        scalar Ue_;         // freestream velocity
-        scalar t_;          // initial averaging time
-        vectorField UMeanSpanTime_; // Averaged velocity at the recycled plane
+        //scalar deltaInlet_; // boundary layer displacement thickness at the inlet
+        //scalar thetaInlet_; // boundary layer momentumt thickness at the inlet
+        //scalar nu_;         // kinematic viscosity
+        //scalar Ue_;         // freestream velocity
+        //scalar t_;          // initial averaging time
+        //vectorField UMeanSpanTime_; // Averaged velocity at the recycled plane
 
 public:
 
@@ -155,8 +155,8 @@ public:
 
 } // End namespace Foam
 
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * // 
 
-#endif
+#endif 
 
 // ************************************************************************* //

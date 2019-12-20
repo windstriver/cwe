@@ -1,4 +1,4 @@
-#include "scaledMappedVelocityFixedValueFvPatchField.H"
+#include "scaledMappedVelocityFixedValueFvPatchFieldParallel.H"
 #include "fvPatchFieldMapper.H"
 #include "mappedPatchBase.H"
 #include "volFields.H"
@@ -15,13 +15,15 @@ scaledMappedVelocityFixedValueFvPatchField
     const DimensionedField<vector, volMesh>& iF
 )
 :
-    fixedValueFvPatchVectorField(p, iF),
+    fixedValueFvPatchVectorField(p, iF)
+/*
     deltaInlet_(0.02835),
     thetaInlet_(0.002667),
     nu_(1.4612e-5),
     Ue_(6.355),
     t_(1e-3),
     UMeanSpanTime_(patch().size(), vector::zero)
+*/
 {}
 
 
@@ -34,13 +36,15 @@ scaledMappedVelocityFixedValueFvPatchField
     const fvPatchFieldMapper& mapper
 )
 :
-    fixedValueFvPatchVectorField(ptf, p, iF, mapper),
+    fixedValueFvPatchVectorField(ptf, p, iF, mapper)
+/*
     deltaInlet_(ptf.deltaInlet_),
     thetaInlet_(ptf.thetaInlet_),
     nu_(ptf.nu_),
     Ue_(ptf.Ue_),
     t_(ptf.t_),
     UMeanSpanTime_(ptf.UMeanSpanTime_)
+*/
 {
     if (!isA<mappedPatchBase>(this->patch().patch()))
     {
@@ -72,13 +76,15 @@ scaledMappedVelocityFixedValueFvPatchField
     const dictionary& dict
 )
 :
-    fixedValueFvPatchVectorField(p, iF, dict),
+    fixedValueFvPatchVectorField(p, iF, dict)
+/*
     deltaInlet_(readScalar(dict.lookup("deltaInlet"))),
     thetaInlet_(readScalar(dict.lookup("thetaInlet"))),
     nu_(readScalar(dict.lookup("nu"))),
     Ue_(readScalar(dict.lookup("Ue"))),
     t_(readScalar(dict.lookup("t"))),
     UMeanSpanTime_("UMeanSpanTime", dict, patch().size())
+*/
 {
     if (!isA<mappedPatchBase>(this->patch().patch()))
     {
@@ -130,13 +136,15 @@ scaledMappedVelocityFixedValueFvPatchField
     const scaledMappedVelocityFixedValueFvPatchField& ptf
 )
 :
-    fixedValueFvPatchVectorField(ptf),
+    fixedValueFvPatchVectorField(ptf)
+/*
     deltaInlet_(ptf.deltaInlet_),
     thetaInlet_(ptf.thetaInlet_),
     nu_(ptf.nu_),
     Ue_(ptf.Ue_),
     t_(ptf.t_),
     UMeanSpanTime_(ptf.UMeanSpanTime_)
+*/
 {}
 
 
@@ -147,13 +155,15 @@ scaledMappedVelocityFixedValueFvPatchField
     const DimensionedField<vector, volMesh>& iF
 )
 :
-    fixedValueFvPatchVectorField(ptf, iF),
+    fixedValueFvPatchVectorField(ptf, iF)
+/*
     deltaInlet_(ptf.deltaInlet_),
     thetaInlet_(ptf.thetaInlet_),
     nu_(ptf.nu_),
     Ue_(ptf.Ue_),
     t_(ptf.t_),
     UMeanSpanTime_(ptf.UMeanSpanTime_)
+*/
 {}
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
@@ -164,27 +174,27 @@ void Foam::scaledMappedVelocityFixedValueFvPatchField::updateCoeffs()
     {
         return;
     }
-    
+
+    // Since we're inside initEvaluate/evaluate there might be processor
+    // comms underway. Change the tag we use.
+    int oldTag = UPstream::msgType();
+    UPstream::msgType() = oldTag+1;
+   
     // Get the mappedPatchBase
     const mappedPatchBase& mpp = refCast<const mappedPatchBase>
     (
         scaledMappedVelocityFixedValueFvPatchField::patch().patch()
     );
+
     const fvMesh& nbrMesh = refCast<const fvMesh>(mpp.sampleMesh());
     const word& fieldName = internalField().name();
     const volVectorField& UField = nbrMesh.lookupObject<volVectorField>(fieldName);
     const label nbrPatchID = nbrMesh.boundaryMesh().findPatchID(mpp.samplePatch());
 
     vectorField URecycled = UField.boundaryField()[nbrPatchID];
-    //Info<< "samplePatch: " << mpp.samplePatch() << endl;
-    //Info<< URecycled << endl;
 
-    // Since we're inside initEvaluate/evaluate there might be processor
-    // comms underway. Change the tag we use.
-    int oldTag = UPstream::msgType();
-    UPstream::msgType() = oldTag+1;
-    //mpp.distribute(URecycled);
 
+/*
     // Get the number of cells in the wall-normal direction and the coordinate (random order)
     label Nnorm = 0;
     scalar newVal = 1.0;
@@ -307,18 +317,16 @@ void Foam::scaledMappedVelocityFixedValueFvPatchField::updateCoeffs()
 
     // average the spanwise averaged velocity field in time
     // NB: many solvers call this function several times per time step. Hence, t_ is different to the actual simulation time!
-    /*
-    forAll(patch(), patchI)
-    {
-        if (t_/deltaT_<=1.0) {UMeanSpanTime_[patchI] = UMeanSpan[normLab[patchI]];} 
-        else
-        {
-            UMeanSpanTime_[patchI] = (1 - (deltaT_/t_))*UMeanSpanTime_[patchI]  + (deltaT_/t_)*UMeanSpan[normLab[patchI]];
-        }
-    }
+    //forAll(patch(), patchI)
+    //{
+    //    if (t_/deltaT_<=1.0) {UMeanSpanTime_[patchI] = UMeanSpan[normLab[patchI]];} 
+    //    else
+    //    {
+    //        UMeanSpanTime_[patchI] = (1 - (deltaT_/t_))*UMeanSpanTime_[patchI]  + (deltaT_/t_)*UMeanSpan[normLab[patchI]];
+    //    }
+    //}
     t_ = t_ + deltaT_; // The averaging time increases progressively to remove the initial transient solution
     Info<< "Averaging time: " << t_ << endl;
-    */
 
     // average the spanwise averaged velocity field in time
     t_ = this->db().time().value();
@@ -569,13 +577,17 @@ void Foam::scaledMappedVelocityFixedValueFvPatchField::updateCoeffs()
         else { break; }
     }
 
+*/
+
+    mpp.distribute(URecycled);
 
     operator==(URecycled);
 
-    fixedValueFvPatchVectorField::updateCoeffs();
-
     // Restore tag
     UPstream::msgType() = oldTag;
+
+    fixedValueFvPatchVectorField::updateCoeffs();
+
 }
 
 
@@ -584,6 +596,7 @@ void Foam::scaledMappedVelocityFixedValueFvPatchField::write
     Ostream& os
 ) const
 {
+    /*
     fvPatchVectorField::write(os);
     writeEntry(os, "value", *this);
     os.writeKeyword("deltaInlet") << deltaInlet_ << token::END_STATEMENT << nl;
@@ -592,6 +605,7 @@ void Foam::scaledMappedVelocityFixedValueFvPatchField::write
     os.writeKeyword("Ue") << Ue_ << token::END_STATEMENT << nl;
     os.writeKeyword("t") << t_ << token::END_STATEMENT << nl;
     writeEntry(os, "UMeanSpanTime", UMeanSpanTime_);
+*/
 }
 
 
