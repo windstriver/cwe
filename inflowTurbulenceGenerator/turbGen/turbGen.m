@@ -62,7 +62,6 @@ ptEnd = nd;
 
 parfor i = ptStart:ptEnd
     % i: points index
-    %i = ptIndex(pari);
     % FFT matrix for velocity time series u, v, w
     % row: frequency index
     % 0, df, 2*df, ... , (N-1)*df
@@ -181,3 +180,4 @@ H5D.close(dset_id);
 H5F.close(fid);
 
 fprintf('\n\nSimulation finished for pt. %6d to %6d \n', ptStart, ptEnd);
+

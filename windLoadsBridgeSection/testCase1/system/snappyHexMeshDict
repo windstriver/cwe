@@ -1,0 +1,103 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7  
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      snappyHexMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+#includeEtc "caseDicts/mesh/generation/snappyHexMeshDict.cfg"
+
+castellatedMesh on;
+snap            on;
+addLayers       off;
+
+geometry
+{
+    bridge
+    {
+        type triSurfaceMesh;
+        file "bridge.obj";
+    }
+
+    refinementBox
+    {
+        type searchableBox;
+        min  (-1.256 0.600 -1.050);
+        max  ( 1.256 1.080  1.050);
+    }
+};
+
+castellatedMeshControls
+{
+    features
+    (
+        { file "bridge.eMesh"; level 1; }
+    );
+
+    refinementSurfaces
+    {
+        bridge
+        {
+            level (4 4);
+            patchInfo { type wall; }
+        }
+    }
+
+    refinementRegions
+    {
+        refinementBox
+        {
+            mode inside;
+            levels ((1E15 3));
+        }
+    }
+
+    locationInMesh (-0.628 1e-5 0.6); // Offset from (0 0 0) to avoid
+                                     // coinciding with face or edge
+    nCellsBetweenLevels 3;
+}
+
+snapControls
+{
+    explicitFeatureSnap    true;
+    implicitFeatureSnap    false;
+}
+
+addLayersControls
+{
+    layers
+    {
+        "bridge.*"
+        {
+            nSurfaceLayers 2;
+        }
+    }
+
+    relativeSizes       true; // false, usually with firstLayerThickness
+    expansionRatio      1.2;
+    finalLayerThickness 0.5;
+    minThickness        1e-3;
+//  firstLayerThickness 0.01;
+
+//  maxThicknessToMedialRatio 0.6;
+}
+
+writeFlags
+(
+//    scalarLevels
+    layerSets
+    layerFields
+);
+
+mergeTolerance 1e-6;
+
+// ************************************************************************* //

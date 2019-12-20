@@ -12,7 +12,7 @@ U_ref = 11.1438; %[m/s]
 
 %% Grid used to generate the inflow
 % GRID = [ (6:10)', -5*H_ref*ones(5,1), (6:10)'*0.1*H_ref, zeros(5,1)];
-GRID = csvread('../testCase/constant/meshInfo/faceCentresInlet.csv');
+GRID = csvread('../testCase/constant/meshInfo/faceCentresinlet.csv');
 nd = size(GRID,1);  % overall number of points
 
 %% Extract the coordinates
@@ -41,8 +41,8 @@ Cxyz = [10 10 10];
 % dt:    time step
 % nt:    number of time steps
 % Td:    total simulated time
-dt = 5e-4;
-nt = 24001;
+dt = 1e-4;
+nt = 120005;
 Td = nt * dt;
 
 %% Frequency segments
