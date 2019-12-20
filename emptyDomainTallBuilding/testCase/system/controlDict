@@ -29,7 +29,7 @@ deltaT          5e-04;
 
 writeControl    timeStep;
 
-writeInterval   200;
+writeInterval   10;
 
 purgeWrite      10;
 
@@ -53,8 +53,6 @@ maxDeltaT         2.0e-3;
 
 functions
 {
-    #includeFunc wallShearStress
-
     fieldAverage1
     {
         type            fieldAverage;
@@ -70,27 +68,16 @@ functions
                 base        time;
 		window      6;
             }
-
-            wallShearStress
-            {
-                mean        on;
-                prime2Mean  off;
-                base        time;
-		window      6;
-            }
-
         );
     }
 
-    #includeFunc internalCloudUMean
-    #includeFunc internalCloudU
-    #includeFunc boundaryCloudwallShearStressMean
+    #includeFunc    "internalProbes"
+    #includeFunc    "internalProbesAverage"
 }
 
 libs
 (
-    "libOpenFOAM.so"
-    "libWallModelledLES.so"
+    //"libWallModelledLES.so"
 );
 
 // ************************************************************************* //

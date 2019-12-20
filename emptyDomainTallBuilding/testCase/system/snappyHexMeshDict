@@ -42,8 +42,8 @@ geometry
     refinementBox
     {
         type searchableBox;
-        min (0.00 0.00 -0.50);
-        max (7.50 1.00  0.50);
+        min (-2.5 0.00 -0.50);
+        max ( 5.0 1.00  0.50);
     }
 };
 
@@ -172,7 +172,7 @@ castellatedMeshControls
     // section reachable from the locationInMesh is kept.
     // NOTE: This point should never be on a face, always inside a cell, even
     // after refinement.
-    locationInMesh (3.64 0.364 0);
+    locationInMesh (0.0 0.5 0);
 
     // Whether any faceZones (as specified in the refinementSurfaces)
     // are only on the boundary of corresponding cellZones or also allow

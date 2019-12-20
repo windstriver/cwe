@@ -1,9 +1,9 @@
 /*--------------------------------*- C++ -*----------------------------------*\
-| =========                 |                                                 |
-| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  1.6                                   |
-|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
-|    \\/     M anipulation  |                                                 |
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
 \*---------------------------------------------------------------------------*/
 FoamFile
 {
@@ -41,22 +41,6 @@ solvers
         mergeLevels     1;
     }
 
-    p2
-    {
-        solver          PCG;
-        preconditioner  DIC;
-        tolerance       1e-06;
-        relTol          0.001;
-    }
-
-    pFinal2
-    {
-        solver          PCG;
-        preconditioner  DIC;
-        tolerance       1e-10;
-        relTol          0;
-    }
-
     U
     {
         solver          PBiCGStab;
@@ -72,53 +56,12 @@ solvers
         tolerance       1e-07;
         relTol          0.0;
     }
-
-    k
-    {
-        solver          PBiCGStab;
-        preconditioner  DILU;
-        tolerance       1e-05;
-        relTol          0;
-    }
-
-    kFinal
-    {
-        solver          PBiCGStab;
-        preconditioner  DILU;
-        tolerance       1e-07;
-        relTol          0;
-    }
-
-    B
-    {
-        solver          PBiCGStab;
-        preconditioner  DILU;
-        tolerance       1e-05;
-        relTol          0;
-    }
-
-    nuTilda
-    {
-        solver          PBiCGStab;
-        preconditioner  DILU;
-        tolerance       1e-06;
-        relTol          0;
-    }
-
-    Phi
-    {
-        $p;
-    }
 }
 
 PISO
 {
     nCorrectors       3;
-}
-
-potentialFlow
-{
-    nNonOrthogonalCorrectors 10;
+    nNonOrthogonalCorrectors 0;
 }
 
 // ************************************************************************* //

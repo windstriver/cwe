@@ -1,46 +1,37 @@
-%% Coordinates system for CFD computational domain
+%% Coordinates system
 % x-axis: streamwise
 % y-axis: wall-normal
 % z-axis: spanwise
 % Units: m-sec
 
-%% Read grid of the inflow plane from OpenFOAM
+%% Parameters
+% H_ref:    Reference height for the mean velocity
+% U_ref:    Mean velocity at H_ref
+H_ref = 0.5; %[m]
+U_ref = 11.1438; %[m/s]
+
+%% Grid used to generate the inflow
+% GRID = [ (6:10)', -5*H_ref*ones(5,1), (6:10)'*0.1*H_ref, zeros(5,1)];
 GRID = csvread('../testCase/constant/meshInfo/faceCentresInlet.csv');
 nd = size(GRID,1);  % overall number of points
 
 %% Extract the coordinates
-% Y coordinate is the height above ground
-X = GRID(:,2);
-Y = GRID(:,3);
-Z = GRID(:,4);
+% Y coordinate is the vertical height from the wall
+X = GRID(:,2); Y = GRID(:,3); Z = GRID(:,4);
 
-%% Mean velocity profile
-% H_ref:    Reference height for the mean velocity
-% U_ref:    Mean velocity at H_ref
-% y0:       Roughness length in model scale
-% alpha:    Exposure exponent
-H_ref = 0.5;  %[m]
-U_ref = 11.1438;     %[m/s]
-% y0 = 0.02/300;  %[m]
+%% Mean velocity profile from TPU database
 alpha = 1/4;
-% Uav = U_ref / log(H_ref/y0) * log(Y/y0);
 Uav = U_ref * (Y/H_ref).^alpha;
 
 %% Turbulent intensity profile
-% Iu = 1.265 * 1.00 ./ log(Y/y0);
-% Iv = 1.075 * 0.08 *  ones(nd,1);
-% Iw = 1.060 * 0.88 ./ log(Y/(2.5e-5));
-Iu = 1.10 * 0.116 * (Y/H_ref).^(-alpha-0.05);
-Iv = 1.00 * 0.550 * Iu;
-Iw = 1.00 * 0.780 * Iu;
+Iu = 0.116 * (Y/H_ref).^(-alpha-0.05);
+Iv = 0.55 * Iu;
+Iw = 0.78 * Iu;
 
-%% Integrale length scale profile
-% Lu = 2.0 * 2.1982*H_ref*(Y/H_ref).^(0.1209);
-% Lv = 0.7137*H_ref*(Y/H_ref).^(0.3652);
-% Lw = 0.6229*H_ref*(Y/H_ref).^(0.3505);
-Lu = 1.65 * 1.480 * H_ref * (Y/H_ref).^(0.4);
-Lv = 0.58 * 0.082 * Lu;
-Lw = 0.67 * 0.237 * Lu;
+%% Integrale length scale profile for TPU database
+Lu = 1.0 * H_ref * ones(nd,1);
+Lv = 0.082 * Lu;
+Lw = 0.237 * Lu;
 
 %% Coherency decay constants
 % Cxyz:   Coherency decay constants in x, y and z directions [1 3] matrix
@@ -51,7 +42,7 @@ Cxyz = [10 10 10];
 % nt:    number of time steps
 % Td:    total simulated time
 dt = 5e-4;
-nt = 120001;
+nt = 24001;
 Td = nt * dt;
 
 %% Frequency segments
@@ -64,7 +55,7 @@ fmax = (N-1) * df;
 %% Wavenumber segments
 % M:      Number of wavenumber segments
 % kmax:   Maximum wavenumber
-M = 1000;
+M = 5000;
 kmax = 1000;
 
 %% Extract the frequency and time vector
@@ -89,8 +80,7 @@ Sw0 = 4*ones(N,1)*((Iw'.*Uav').^2.*(Lw'./Uav')) .* ...
     (1 + 70.8*(2*fvec'*(Lw'./Uav')).^2).^(11/6);
 
 % Create the HDF5 file
-hdf5File = 'inflowTurb2.h5';
+hdf5File = 'inflowTurb.h5';
 if exist(hdf5File, 'file') == 0
     run('hdf5Creation.m');
 end
-
