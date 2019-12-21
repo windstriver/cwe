@@ -54,6 +54,16 @@ int main(int argc, char *argv[])
         Info<< "Wrote face centres of patch " << patchName << " to constant/meshInfo/"
             << "faceCentres" << patchName << endl;
 
+        // Open the file from the output directory
+        outputFilePtr.reset(new OFstream(outputDir+"/faceCentres"+patchName+".csv"));
+
+        forAll(faceCentres, faceI)
+        {
+            outputFilePtr() << faceCentres[faceI].x() << ",  "
+                            << faceCentres[faceI].y() << ",  "
+                            << faceCentres[faceI].z() << endl;
+        }
+
     }
 
     return 0;

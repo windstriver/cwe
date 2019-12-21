@@ -25,11 +25,11 @@ stopAt          endTime;
 
 endTime         16;
 
-deltaT          1e-02;
+deltaT          5e-04;
 
 writeControl    timeStep;
 
-writeInterval   10;
+writeInterval   200;
 
 purgeWrite      10;
 
@@ -65,7 +65,7 @@ functions
             (-3.768 0.84 0)
             (-2.512 0.84 0)
             (-1.256 0.84 0)
-            (0 0.84 0)
+            //(0 0.84 0)
         );
     }
 
@@ -92,6 +92,8 @@ functions
             }
         );
     }
+
+    #includeFunc        boundaryProbes
 }
 
 // ************************************************************************* //
