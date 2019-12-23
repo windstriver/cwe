@@ -17,7 +17,7 @@ nd = size(GRID,1);  % overall number of points
 
 %% Extract the coordinates
 % Y coordinate is the vertical height from the wall
-X = GRID(:,2); Y = GRID(:,3); Z = GRID(:,4);
+X = GRID(:,1); Y = GRID(:,2); Z = GRID(:,3);
 
 %% Mean velocity profile from TPU database
 alpha = 1/4;
@@ -41,8 +41,8 @@ Cxyz = [10 10 10];
 % dt:    time step
 % nt:    number of time steps
 % Td:    total simulated time
-dt = 1e-4;
-nt = 120005;
+dt = 5e-4;
+nt = 48001;
 Td = nt * dt;
 
 %% Frequency segments
@@ -80,7 +80,9 @@ Sw0 = 4*ones(N,1)*((Iw'.*Uav').^2.*(Lw'./Uav')) .* ...
     (1 + 70.8*(2*fvec'*(Lw'./Uav')).^2).^(11/6);
 
 % Create the HDF5 file
-hdf5File = 'inflowTurb.h5';
-if exist(hdf5File, 'file') == 0
+hdf5File = 'inflowTurb_samp_freq_2e3.h5';
+try
     run('hdf5Creation.m');
+catch
 end
+

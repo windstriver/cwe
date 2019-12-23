@@ -12,7 +12,7 @@ h5.order = H5ML.get_constant_value('H5T_ORDER_BE');
 H5T.set_order(h5.type_id,h5.order);
 
 % dataset /GRID
-h5.dims = fliplr([nd 4]);
+h5.dims = fliplr([nd 3]);
 h5.maxdims = h5.dims;
 h5.space_id = H5S.create_simple(2,h5.dims,h5.maxdims);
 h5.dcpl = 'H5P_DEFAULT';

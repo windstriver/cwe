@@ -47,10 +47,6 @@ dset_id = H5D.open(fid,'/FLAG');
 % Flag to store the simulation status
 FLAG = H5D.read(dset_id);
 
-% Index to determine which points need simulation
-%ptIndex = 1:nd;
-%ptIndex = ptIndex(~FLAG);
-
 % parpool to specify workers
 c = parcluster('local');
 c.NumWorkers = 35;
@@ -58,7 +54,7 @@ parpool(c, c.NumWorkers);
 
 % start and end index of the points to be simulated
 ptStart = 1;
-ptEnd = nd;
+ptEnd = 5000;
 
 parfor i = ptStart:ptEnd
     % i: points index
