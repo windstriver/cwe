@@ -1,7 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  1.6                                   |
+|  \\    /   O peration     | Version:  7                                     |
 |   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
@@ -17,7 +17,7 @@ FoamFile
 
 averagingTime   0.05; 
 
-application     pimpleFoam;
+application     pisoFoam;
 
 startFrom       startTime;
 
@@ -55,15 +55,10 @@ maxDeltaT         2.0e-3;
 
 functions
 {
-    #includeFunc        boundaryProbesInlet;
-    #includeFunc        boundaryProbesCyclicLeft;
-    #includeFunc        boundaryProbesCyclicRight;
-    #includeFunc        internalProbes;
 }
 
 libs
 (
-    "libWallModelledLES.so"
     "libScaledMappedVelocityFixedValue.so"
 );
 

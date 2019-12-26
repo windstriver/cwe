@@ -1,3 +1,0 @@
-scaledMappedVelocityFixedValueFvPatchFieldParallel.C
-
-LIB = $(FOAM_USER_LIBBIN)/libScaledMappedVelocityFixedValueParallel
