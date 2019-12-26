@@ -1,0 +1,60 @@
+-*- coding: utf-8 -*-
+#+TITLE: README
+#+AUTHOR: Wang, Yong
+#+STARTUP: showeverything
+#+STARTUP: indent
+
+* Objective
+To simulate the approaching flow with synthetic inlet
+based on spectral representation method.
+
+* Simulation Case Setup
+** Parameters
+   :PROPERTIES:
+   :U:        7.5
+   :nu:       1.4612e-5
+   :Iu:       0.0951
+   :Iv:       0.0748
+   :Iw:       0.0814
+   :deltaT:   1e-2
+   :endTime:  16
+   :B:        0.628
+   :H:        0.060
+   :L:        2.100
+   :END:
+
+** Mesh
+   :PROPERTIES:
+   :xMin:     -8*B
+   :xMax:     12*B
+   :yMin:     0
+   :yMax:     28*H
+   :zMin:     -1/2*L
+   :zMax:     1/2*L
+   :xCells:   150
+   :yCells:   20
+   :zCells:   24
+   :xGrading: 1
+   :yGrading: 1
+   :zGrading: 1
+   :END:
+
+** Models
+   :PROPERTIES:
+   :inlet:    turbulentInlet
+   :LESModel: dynamicKEqn
+   :END:
+
+** Discretization Schemes
+   :PROPERTIES:
+   :ddtSchemes: backward
+   :gradSchemes: Gauss linear
+   :div(phi,U): Gauss LUST grad(U)
+   :END:
+
+** Solution Schemes
+   :PROPERTIES:
+   :application: pimpleFoam
+   :pSolver:  GAMG
+   :USolver:  smoothSolver
+   :END:
