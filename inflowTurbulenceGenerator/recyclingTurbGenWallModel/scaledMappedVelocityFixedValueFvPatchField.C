@@ -174,10 +174,16 @@ void Foam::scaledMappedVelocityFixedValueFvPatchField::updateCoeffs()
     const word& fieldName = internalField().name();
     const volVectorField& UField = nbrMesh.lookupObject<volVectorField>(fieldName);
     const label nbrPatchID = nbrMesh.boundaryMesh().findPatchID(mpp.samplePatch());
-
     vectorField URecycled = UField.boundaryField()[nbrPatchID];
-    //Info<< "samplePatch: " << mpp.samplePatch() << endl;
-    //Info<< URecycled << endl;
+
+    // Read the predicted utau generated from wall model
+    const volScalarField& uTauPredictedField = nbrMesh.lookupObject<volScalarField>("uTauPredicted");
+    const label groundPatchID = nbrMesh.boundaryMesh().findPatchID("groundLeft"); 
+    const scalarField uTauPredictedGround = uTauPredictedField.boundaryField()[groundPatchID];
+    // Read ground patch face centres
+    const vectorField& groundPatchFaceCentres = nbrMesh.Cf().boundaryField()[groundPatchID];
+    //Info << "uTauPredictedGround: " << uTauPredictedGround << endl;
+    //Info << "groundPatchFaceCentres: " << groundPatchFaceCentres << endl; 
 
     // Since we're inside initEvaluate/evaluate there might be processor
     // comms underway. Change the tag we use.
@@ -224,6 +230,31 @@ void Foam::scaledMappedVelocityFixedValueFvPatchField::updateCoeffs()
         if ( newVal == 1.0 ) { coord2[Nspan] = patch().Cf()[patchI].component(2); Nspan++; }
     }
 
+    // Get the number of cells in the streamwise direction and the coordinate (random order)
+    label Nstream = 0;
+    scalarField coordX(groundPatchFaceCentres.size(), 0);
+    forAll(groundPatchFaceCentres, patchI)
+    {
+        newVal = 1.0;
+        forAll(groundPatchFaceCentres, patchII)
+        {
+            if ( Nstream == 0 ) { break; }
+            if ( mag(groundPatchFaceCentres[patchI].component(0) - coordX[patchII]) < 10e-9 )
+            {
+               newVal = 0;
+               break;
+            }
+            if ( patchII == Nstream - 1 ) { break; }
+        }
+        if ( newVal == 1.0 )
+        {
+            coordX[Nstream] = groundPatchFaceCentres[patchI].component(0); Nstream++;
+        }
+    }
+
+    //Info << "Nstream: " << Nstream << endl;
+    //Info << "coordX: " << coordX << endl;
+
     // Sort the normal coordinates from lowest to highest
     scalarField normCoord(Nnorm, 10e9);
     forAll(patch(), patchI)
@@ -263,6 +294,56 @@ void Foam::scaledMappedVelocityFixedValueFvPatchField::updateCoeffs()
         }
         if (patchI == Nspan - 1) { break; }
     }
+
+    // Sort the streamwise coordinates from lowest to highest
+    scalarField streamCoord(Nstream, 10e9);
+    forAll(groundPatchFaceCentres, patchI)
+    {
+        forAll(groundPatchFaceCentres, patchII)
+        {
+            if ( coordX[patchI] < streamCoord[patchII] )    
+            {
+                forAll(patch(), patchIII)
+                {
+                    streamCoord[Nstream - 1 - patchIII] = streamCoord[Nstream - 2 - patchIII];
+                    if (Nstream - 1 - patchIII == patchII) { break; }
+                }
+                streamCoord[patchII] = coordX[patchI];
+                break;
+            }
+        }
+        if (patchI == Nstream - 1) { break; }
+    }
+
+    // calculation of the friction velocity at the recycled plane from wall model
+    scalar UTauRecycle = 0.2;
+
+    forAll(groundPatchFaceCentres, patchI)
+    {
+       if (mag(groundPatchFaceCentres[patchI].component(0) - streamCoord[Nstream-1]) < 10e-9)
+       {
+           UTauRecycle += uTauPredictedGround[patchI];
+       }
+    }
+
+    UTauRecycle /= Nspan;
+
+    scalar UTauInlet = 0.2;
+
+    forAll(groundPatchFaceCentres, patchI)
+    {
+       if (mag(groundPatchFaceCentres[patchI].component(0) - streamCoord[0]) < 10e-9)
+       {
+           UTauInlet += uTauPredictedGround[patchI];
+       }
+    }
+
+    UTauInlet /= Nspan;
+
+
+    //Info << "streamCoord: " << streamCoord << endl;
+    //Info << "xMax: " << streamCoord[Nstream-1] << endl;
+    //Info << "UTauRecycle: " << UTauRecycle << endl;
 
     // Get the normal label position
     labelField normLab(patch().size(), 0);
@@ -354,8 +435,8 @@ void Foam::scaledMappedVelocityFixedValueFvPatchField::updateCoeffs()
     //Info << UxMeanSpanTime_ << endl;
 
     // calculation of the friction velocity at the recycled plane
-    scalar UTauRecycle = 0;
-    UTauRecycle = sqrt(nu_*UxMeanSpanTime_[0]/normCoord[0]);
+    // scalar UTauRecycle = 0;
+    // UTauRecycle = sqrt(nu_*UxMeanSpanTime_[0]/normCoord[0]);
 
     // get the boundary layer thickness at the recycled plane
     scalar deltaRecycle = deltaInlet_;
@@ -388,7 +469,8 @@ void Foam::scaledMappedVelocityFixedValueFvPatchField::updateCoeffs()
 
     // Info << "UxMeanSpanTime_ " << UxMeanSpanTime_ << endl;
     // power law rule relation for inlet friction velocity
-    scalar UTauInlet_ = UTauRecycle*pow((thetaRecycle/thetaInlet_), 0.125); // inlet friction velocity
+    // scalar UTauInlet_ = UTauRecycle*pow((thetaRecycle/thetaInlet_), 0.125); // inlet friction velocity
+    scalar UTauInlet_ = UTauInlet;  // from wall model
     Info << "deltaRecycle = " << deltaRecycle << "\t deltaInlet = " << deltaInlet_  << endl;
     Info << "thetaRecycle = " << thetaRecycle << "\t thetaInlet = " << thetaInlet_  << endl;
     Info << "UTauRecycle = " << UTauRecycle << "\t UTauInlet = " << UTauInlet_ << endl;

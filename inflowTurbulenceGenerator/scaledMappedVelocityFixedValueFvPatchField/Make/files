@@ -1,3 +1,0 @@
-scaledMappedVelocityFixedValueFvPatchField.C
-
-LIB = $(FOAM_USER_LIBBIN)/libScaledMappedVelocityFixedValue
